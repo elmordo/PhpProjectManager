@@ -19,7 +19,6 @@ class Loader
 
             if (is_file($path))
             {
-                die;
                 require $path;
                 break;
             }
