@@ -13,6 +13,7 @@ $loader->registerLoader();
 $loader->registerDir(joinPath(__DIR__));
 
 $application = new \PPM\Application();
+$currentPath = $_SERVER["PWD"];
 
 try
 {

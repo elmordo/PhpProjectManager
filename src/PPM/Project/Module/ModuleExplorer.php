@@ -3,7 +3,7 @@
 namespace PPM\Project\Module;
 
 
-class ModuleExplorer// implements IModuleExplorer
+class ModuleExplorer implements IModuleExplorer
 {
 
     const GLOBAL_CONFIG_NAME = ".ppm.config.global.php";
@@ -12,7 +12,7 @@ class ModuleExplorer// implements IModuleExplorer
 
     protected $directories = [];
 
-    public function addDirectory(string $directory)
+    public function addDirectory(string $directory) : IModuleExplorer
     {
         $this->directories[] = $directory;
         return $this;
@@ -48,6 +48,7 @@ class ModuleExplorer// implements IModuleExplorer
                 }
                 catch (\Exception $e)
                 {
+                    die("prdel");
                     continue;
                 }
 

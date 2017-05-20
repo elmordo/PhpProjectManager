@@ -44,11 +44,13 @@ if (ini_get("phar.readonly"))
 // setup some variables
 $targetFile = joinPath($buildDir, "ppm.phar");
 $srcDir = joinPath(__DIR__, "src");
+$resourceDir = joinPath(__DIR__, "resource");
 $entryPoint = joinPath("main.php");
 
 // build application to phar
 $pharApp = new Phar($targetFile, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME);
 $pharApp->buildFromDirectory($srcDir);
+$pharApp->buildFromDirectory($resourceDir);
 
 $stub = $pharApp->createDefaultStub($entryPoint);
 
