@@ -12,4 +12,11 @@ class Module
 
     protected $config;
 
+    public function __construct(string $name, string $path, array $config=array())
+    {
+    	$this->config = $config;
+    	$this->name = $name;
+    	$this->path = $path;
+    }
+
 }
