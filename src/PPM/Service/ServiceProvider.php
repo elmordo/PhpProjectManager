@@ -96,7 +96,7 @@ class ServiceProvider implements IServiceProvider
 	 */
 	public function createInstance() : IService
 	{
-		$instance = $this->factory();
+		$instance = ($this->factory)();
 		$instance->setServiceProvider($this)->setServiceManager($this->serviceManager);
 		$instance->initialize();
 		return $instance;
