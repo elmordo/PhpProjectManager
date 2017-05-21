@@ -52,7 +52,7 @@ trait ServiceTrait
 	 */
 	public function setServiceManager(IServiceManager $manager) : IService
 	{
-		$this->ServiceManager = $manager;
+		$this->serviceManager = $manager;
 		return $this;
 	}
 
