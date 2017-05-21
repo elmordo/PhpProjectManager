@@ -2,5 +2,6 @@
 
 return [
 	"module_dir" => "modules",
-	"config_dir" => "config"
+	"module_explorer" => "\PPM\Project\Module\ModuleExplorer",
+	"config_dir" => "config",
 ];

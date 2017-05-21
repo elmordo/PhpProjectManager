@@ -50,6 +50,14 @@ class ConfigData
 		return $value;
 	}
 
+	public function getStrict($name)
+	{
+		if (!isset($this->data[$name]))
+			throw new Exception("Key '$name' does not exist", 500);
+
+		return $this->getValue($name);
+	}
+
 	/**
 	 * inplace merge current data with new array config data
 	 * @param array $data data to merge with

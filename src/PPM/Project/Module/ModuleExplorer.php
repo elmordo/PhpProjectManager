@@ -24,7 +24,8 @@ class ModuleExplorer implements IModuleExplorer
 
         foreach ($this->directories as $directory)
         {
-            $result = array_merge($result, $this->exploreDirectory($directory));
+            if (is_dir($directory))
+                $result = array_merge($result, $this->exploreDirectory($directory));
         }
 
         return $result;
@@ -48,7 +49,6 @@ class ModuleExplorer implements IModuleExplorer
                 }
                 catch (\Exception $e)
                 {
-                    die("prdel");
                     continue;
                 }
 
@@ -72,6 +72,10 @@ class ModuleExplorer implements IModuleExplorer
     {
         $globalPath = joinPath($directory, self::GLOBAL_CONFIG_NAME);
         $localPath = joinPath($directory, self::LOCAL_CONFIG_NAME);
+
+        // global config files has to exists
+        if (!is_file($globalPath))
+            throw new \Exception("Module config was not found", 500);
 
         $result = [];
 

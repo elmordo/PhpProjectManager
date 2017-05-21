@@ -20,11 +20,11 @@ $currentPath = $_SERVER["PWD"];
 $serviceManager = new Service\ServiceManager();
 
 $serviceManager->setService("config", new \PPM\Service\ServiceProvider(new PPM\Config\Service()));
-$serviceManager->setService("project", new \PPM\Service\ServiceProvider(new \PPM\Project\Service(), [ "config" ]));
 $serviceManager->setService("application", new \PPM\Service\ServiceProvider(new \PPM\Application(), [ "config" ]));
+$serviceManager->setService("project", new \PPM\Service\ServiceProvider(new \PPM\Project\Service(), [ "config", "application" ]));
 
 $project = $serviceManager->getService("project");
-die(var_dump($project->getModules()));
+die(var_dump($project->getModuleManager()));
 $application = $serviceManager->getService("application");
 
 try

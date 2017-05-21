@@ -25,6 +25,11 @@ class Application implements IService
         $this->basePath = $_SERVER["PWD"];
     }
 
+    public function getBasePath() : string
+    {
+        return $this->basePath;
+    }
+
     public function handle($arguments)
     {
         # code...

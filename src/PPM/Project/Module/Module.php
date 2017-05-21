@@ -19,4 +19,9 @@ class Module
     	$this->path = $path;
     }
 
+    public function getName() : string
+    {
+    	return $this->name;
+    }
+
 }
