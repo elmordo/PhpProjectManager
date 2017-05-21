@@ -13,6 +13,12 @@ interface IServiceProvider
 	public function isShared() : bool;
 
 	/**
+	 * get service dependencies
+	 * @return array
+	 */
+	public function getDependencies() : array;
+
+	/**
 	 * set new defintiion of service
 	 * @param mixed $definition service definition
 	 * @return IServiceProvider reference to this instance

@@ -7,6 +7,17 @@ interface IService
 {
 
 	/**
+	 * return set of service dependencies
+	 * @return array
+	 */
+	public function getDependencies() : array;
+
+	/**
+	 * initialize service
+	 */
+	public function initialize();
+
+	/**
 	 * return current service provider
 	 * @return IServiceProvider
 	 */

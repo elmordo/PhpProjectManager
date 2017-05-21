@@ -43,6 +43,13 @@ class ServiceManager implements IServiceManager
 		if ($this->hasService($name))
 			throw new \DomainException("Service '$name' is already registered", 409);
 
+		// test dependencies
+		foreach ($provider->getDependencies() as $dependency)
+		{
+			if (!isset($this->services[$dependency]))
+				throw new Exception("Dependency '$dependency' is not satisified.", 404);
+		}
+
 		$provider->setServiceManager($this);
 		$this->services[$name] = $provider;
 

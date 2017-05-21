@@ -16,15 +16,12 @@ $loader->registerDir(joinPath(__DIR__));
 
 $currentPath = $_SERVER["PWD"];
 
-// load config
-$appConfigData = include __DIR__ . "/../resource/application.default.config.php";
-$config = new PPM\Config\Service($appConfigData);
-
 // setup application
 $application = new \PPM\Application();
 $serviceManager = $application->getServiceManager();
 
-$serviceManager->setService("config", new \PPM\Service\ServiceProvider($config));
+$serviceManager->setService("config", new \PPM\Service\ServiceProvider(new PPM\Config\Service()));
+$serviceManager->setService("project", new \PPM\Service\ServiceProvider(new \PPM\Project\Service(), [ "config" ]));
 
 try
 {
