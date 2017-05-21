@@ -51,6 +51,17 @@ class ConfigData
 	}
 
 	/**
+	 * inplace merge current data with new array config data
+	 * @param array $data data to merge with
+	 * @return ConfigData reference to this instance
+	 */
+	public function mergeWithArray(array $data) : ConfigData
+	{
+		$this->data = array_merge($this->data, $data);
+		return $this;
+	}
+
+	/**
 	 * recursively convert configuration data to array
 	 * @return configuration data
 	 */

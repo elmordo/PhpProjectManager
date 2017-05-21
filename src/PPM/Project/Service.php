@@ -18,6 +18,7 @@ class Service extends \PPM\Project implements IService
 
 	public function initialize()
 	{
+		$config = $this->getServiceManager()->getService("config");
 	}
 
 }

@@ -4,33 +4,23 @@ namespace PPM;
 
 use PPM\Service\ServiceManager;
 use PPM\Service\IServiceManager;
+use PPM\Service\IService;
+use PPM\Service\ServiceTrait;
 
 
-class Application
+class Application implements IService
 {
+
+    use ServiceTrait;
 
     protected $basePath;
 
-    protected $serviceManager;
-
-    public function __construct()
+    public function getDependencies() : array
     {
-        $this->setup();
-        $this->serviceManager = new ServiceManager();
+        return [ "config" ];
     }
 
-    public function getServiceManager() : IServiceManager
-    {
-        return $this->serviceManager;
-    }
-
-    public function setServiceManager(IServiceManager $value) : Application
-    {
-        $this->serviceManager = $value;
-        return $this;
-    }
-
-    public function setup()
+    public function initialize()
     {
         $this->basePath = $_SERVER["PWD"];
     }
