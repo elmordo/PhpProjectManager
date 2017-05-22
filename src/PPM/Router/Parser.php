@@ -6,6 +6,13 @@ namespace PPM\Router;
 class Parser
 {
 
+	protected $factory;
+
+	public function __construct()
+	{
+		$this->factory = new Parser\Factory();
+	}
+
 	/**
 	 * setup parser
 	 * @param array $options parser options
@@ -44,10 +51,22 @@ class Parser
 	{
 		foreach ($this->arguments as $argumentDefinition)
 		{
-			$this->setupArgument($argumentDefinition);
+			$argument = $this->setupArgument($argumentDefinition);
 		}
 
 		return $this;
+	}
+
+	/**
+	 * setup one argument
+	 * @param array $argumentDefinition argument definition
+	 * @return IArgument created argument
+	 */
+	private function setupArgument(array $argumentDefinition) : Parser\IArgument
+	{
+		$type = $argumentDefinition["type"];
+		$options = $argumentDefinition["options"];
+		return $this->factory->createArgument($type, $options);
 	}
 
 }

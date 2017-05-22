@@ -1,6 +1,6 @@
 <?php
 
-namespace PPM\Route\Parser;
+namespace PPM\Router\Parser;
 
 
 /**
@@ -9,6 +9,18 @@ namespace PPM\Route\Parser;
  */
 interface IArgument
 {
+
+    /**
+     * return true if value was parsed since the last reset.
+     * @return bool true if value was parsed, false otherwise
+     */
+    public function isParsed() : bool;
+
+    /**
+     * return true if argument is required, false if argument is optional
+     * @return bool true if argument is required, false otherwise
+     */
+    public function isRequred() : bool;
 
     /**
      * return name of the argument
@@ -26,7 +38,7 @@ interface IArgument
      * return default value for argument
      * @return mixed default value
      */
-    public function getDefaultValue();
+    public function getDefaultValue() : string;
 
     /**
      * mapping of the argument
@@ -35,17 +47,23 @@ interface IArgument
     public function getMapping() : string;
 
     /**
-     * return true if argument is flag
-     * @return boolean true if value is flag
-     */
-    public function isFlag() : bool;
-
-    /**
      * parse value from data
      * @param Data $data data to parse
      * @return string parsed value
      * @throws Exception data cab bit ve oarsed
      */
-    public function parseValue(Data $data) : string;
+    public function parseValue(Data $data) : IArgument;
+
+    /**
+     * return last parsed value
+     * @return string last parsed value
+     */
+    public function getValue() : string;
+
+    /**
+     * reset parsed data
+     * @return IArgument refernece to this instance
+     */
+    public function reset() : IArgument;
 
 }
