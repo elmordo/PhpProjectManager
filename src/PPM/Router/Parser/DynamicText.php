@@ -21,5 +21,6 @@ class DynamicText extends AArgument
 		$this->parsed = true;
 
 		return $this;
+	}
 
 }

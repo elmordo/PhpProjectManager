@@ -27,7 +27,31 @@ $serviceManager->setService("project", new \PPM\Service\ServiceProvider(new \PPM
 // try to setup one route
 $router = $serviceManager->getService("router");
 
-$args = [];
+$routeParams = [
+	"definition" => [
+		[
+			"type" => "static",
+			"options" => [
+				"token" => "foo",
+				"required" => true,
+				"name" => "placeholder,"
+			],
+		],
+		[
+			"type" => "dynamic",
+			"options" => [
+				"required" => true,
+				"name" => "controller"
+			],
+		],
+	],
+	"name" => "my_route",
+	"defaults" => [ "action" => "kokot" ],
+];
+
+$route = $router->createRoute()->setupFromArray($routeParams);
+
+$args = [ "foo", "bar" ];
 var_dump($router->match($args)->getParams());
 
 $application = $serviceManager->getService("application");

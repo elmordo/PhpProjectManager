@@ -8,6 +8,8 @@ class Parser
 
 	protected $factory;
 
+	protected $arguments = [];
+
 	public function __construct()
 	{
 		$this->factory = new Parser\Factory();
@@ -29,6 +31,8 @@ class Parser
 					break;
 			}
 		}
+
+		return $this;
 	}
 
 	/**
@@ -39,7 +43,9 @@ class Parser
 	 */
 	public function parse(array $arguments) : array
 	{
+		$result = [];
 
+		return $result;
 	}
 
 	/**
@@ -49,9 +55,22 @@ class Parser
 	 */
 	public function setupArguments(array $arguments) : Parser
 	{
-		foreach ($this->arguments as $argumentDefinition)
+		$optionalArgumentGroup = null;
+
+		foreach ($arguments as $argumentDefinition)
 		{
 			$argument = $this->setupArgument($argumentDefinition);
+
+			if ($argument->isRequired())
+			{
+				$this->arguments[] = $argument;
+				$optionalArgumentGroup = null;
+			}
+			else
+			{
+				throw new \Exception("Optional arguments are not supported", 1);
+
+			}
 		}
 
 		return $this;

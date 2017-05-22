@@ -50,18 +50,12 @@ class Route implements IRoute
 					$this->setName($value);
 					break;
 
-				case "controller":
-					// set default controller
-					$this->params["controller"] = $value;
-					break;
-
-				case "action":
-					// set default action
-					$this->params["action"] = $value;
+				case "defaults":
+					$this->setDefaults((array)$value);
 					break;
 
 				case "definition":
-					$this->parser->setup($value);
+					$this->parser->setup([ "arguments" =>  $value ]);
 					break;
 			}
 		}
@@ -73,7 +67,7 @@ class Route implements IRoute
 	 * return name of the route
 	 * @return string route name
 	 */
-	public function getName()
+	public function getName() : string
 	{
 		return $this->name;
 	}

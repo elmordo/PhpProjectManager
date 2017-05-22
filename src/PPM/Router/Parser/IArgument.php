@@ -20,7 +20,7 @@ interface IArgument
      * return true if argument is required, false if argument is optional
      * @return bool true if argument is required, false otherwise
      */
-    public function isRequred() : bool;
+    public function isRequired() : bool;
 
     /**
      * return name of the argument

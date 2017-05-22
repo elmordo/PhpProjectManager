@@ -17,7 +17,7 @@ interface IRoute
 	 * return name of the route
 	 * @return string route name
 	 */
-	public function getName() : ?string;
+	public function getName() : string;
 
 	/**
 	 * test arguments againts the route
