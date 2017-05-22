@@ -20,12 +20,16 @@ $currentPath = $_SERVER["PWD"];
 $serviceManager = new Service\ServiceManager();
 
 $serviceManager->setService("config", new \PPM\Service\ServiceProvider(new PPM\Config\Service()));
-$serviceManager->setService("service", new \PPM\Service\ServiceProvider(new \PPM\Router\Service(), [ "config" ]));
+$serviceManager->setService("router", new \PPM\Service\ServiceProvider(new \PPM\Router\Service(), [ "config" ]));
 $serviceManager->setService("application", new \PPM\Service\ServiceProvider(new \PPM\Application(), [ "config" ]));
 $serviceManager->setService("project", new \PPM\Service\ServiceProvider(new \PPM\Project\Service(), [ "config", "application" ]));
 
-$project = $serviceManager->getService("project");
-die(var_dump($project->getModuleManager()));
+// try to setup one route
+$router = $serviceManager->getService("router");
+
+$args = [];
+var_dump($router->match($args)->getParams());
+
 $application = $serviceManager->getService("application");
 
 try
