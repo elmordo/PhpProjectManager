@@ -17,14 +17,9 @@ class Route implements IRoute
 	protected $name;
 
 	/**
-	 * @var string default controller name
+	 * @var array default values
 	 */
-	protected $defaultController = "help";
-
-	/**
-	 * @var string default action name
-	 */
-	protected $defaultAction = "index";
+	protected $defaults = [];
 
 	/**
 	 * @var Parser argument parser
@@ -95,6 +90,26 @@ class Route implements IRoute
 	}
 
 	/**
+	 * return default values of route
+	 * @return array route's default values
+	 */
+	public function getDefaults() : array
+	{
+		return $this->defaults;
+	}
+
+	/**
+	 * set new default values for route
+	 * @param array $value default values for route
+	 * @return Route reference to this instance
+	 */
+	public function setDefaults(array $value) : Route
+	{
+		$this->defaults = $value;
+		return $this;
+	}
+
+	/**
 	 * test arguments againts the route
 	 * @param array $args set of arguments
 	 * @return bool true if arguments match
@@ -158,10 +173,7 @@ class Route implements IRoute
 	 */
 	protected function reset()
 	{
-		$this->params = [
-			"controller" => $this->defaultController,
-			"action" => $this->defaultAction,
-		];
+		$this->params = $this->defaults;
 	}
 
 }

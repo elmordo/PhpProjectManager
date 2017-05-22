@@ -20,6 +20,7 @@ $currentPath = $_SERVER["PWD"];
 $serviceManager = new Service\ServiceManager();
 
 $serviceManager->setService("config", new \PPM\Service\ServiceProvider(new PPM\Config\Service()));
+$serviceManager->setService("service", new \PPM\Service\ServiceProvider(new \PPM\Router\Service(), [ "config" ]));
 $serviceManager->setService("application", new \PPM\Service\ServiceProvider(new \PPM\Application(), [ "config" ]));
 $serviceManager->setService("project", new \PPM\Service\ServiceProvider(new \PPM\Project\Service(), [ "config", "application" ]));
 
