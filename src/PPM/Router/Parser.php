@@ -13,7 +13,15 @@ class Parser
 	 */
 	public function setup(array $options) : Parser
 	{
-
+		foreach ($options as $name => $value)
+		{
+			switch ($name)
+			{
+				case "arguments":
+					$this->setupArguments($value);
+					break;
+			}
+		}
 	}
 
 	/**
@@ -25,6 +33,21 @@ class Parser
 	public function parse(array $arguments) : array
 	{
 
+	}
+
+	/**
+	 * setup arguments
+	 * @param  array $arguments set of argument definitions
+	 * @return Parser referece to this
+	 */
+	public function setupArguments(array $arguments) : Parser
+	{
+		foreach ($this->arguments as $argumentDefinition)
+		{
+			$this->setupArgument($argumentDefinition);
+		}
+
+		return $this;
 	}
 
 }
