@@ -52,7 +52,7 @@ class Dispatcher
     private function processArgs(array $args)
     {
         $route = $this->router->match($args);
-        $parameters = $
+        $parameters = $route->getParams();
     }
 
 }
