@@ -6,34 +6,6 @@ namespace PPM\Router\Parser;
 class StaticText extends AArgument
 {
 
-	protected $token;
-
-	public function setOptions(array $options) : AArgument
-	{
-		foreach ($options as $key => $val)
-		{
-			switch ($key)
-			{
-			case "token":
-				$this->setToken((string) $val);
-				break;
-			}
-		}
-
-		return parent::setOptions($options);
-	}
-
-	public function getToken() : string
-	{
-		return $this->token;
-	}
-
-	public function setToken(string $value) : StaticText
-	{
-		$this->token = $value;
-		return $this;
-	}
-
     /**
      * parsed item have to match to internal token value
      * @param Data $data data to parse
@@ -44,7 +16,16 @@ class StaticText extends AArgument
 	{
 		$currentItem = $data->current();
 
-		if ($currentItem == $this->token)
+		try
+		{
+			$name = $this->getName();
+		}
+		catch (\TypeError $e)
+		{
+			throw new \RuntimeException("Name of StaticText has to be set.", 400);
+		}
+
+		if ($currentItem == $name)
 		{
 			// all is ok
 			$this->lastParsedValue = $currentItem;

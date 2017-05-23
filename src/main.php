@@ -32,7 +32,6 @@ $routeParams = [
 		[
 			"type" => "static",
 			"options" => [
-				"token" => "foo",
 				"required" => true,
 				"name" => "placeholder",
 			],
@@ -52,7 +51,7 @@ $routeParams = [
 
 $route = $router->createRoute()->setupFromArray($routeParams);
 
-$args = [ "foo", "bar" ];
+$args = [ "placeholder", "bar" ];
 var_dump($router->match($args)->getParams());
 
 $application = $serviceManager->getService("application");
