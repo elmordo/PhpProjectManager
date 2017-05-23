@@ -43,12 +43,54 @@ class Parser
 	 */
 	public function parse(array $arguments) : array
 	{
+		$this->parseArguments($arguments);
+
+		try
+		{
+			$this->validate();
+		}
+		catch (\AssertionError $e)
+		{
+			throw new Exception("Data is invalid", 400);
+		}
+
+		return $this->getLastData();
+	}
+
+	/**
+	 * validate parsed data (assert all required arguments are parsed)
+	 * @return Parser reference to this instance
+	 * @throws \AssertionError data is invalid
+	 */
+	public function validate() : Parser
+	{
+		foreach ($this->arguments as $argument)
+		{
+			if ($argument->isRequired())
+				assert($argument->isParsed());
+		}
+
+		return $this;
+	}
+
+	/**
+	 * get last parsed data
+	 * @return array key is mapping and value is parsed value
+	 */
+	public function getLastData() : array
+	{
 		$result = [];
-		$data = new Parser\Data($arguments);
 
 		foreach ($this->arguments as $argument)
 		{
-			$argument->parseValue($data);
+			try
+			{
+				$result[$argument->getMapping()] = $argument->getValue();
+			}
+			catch (\TypeError $e)
+			{
+				// mapping is not set
+			}
 		}
 
 		return $result;
@@ -92,6 +134,23 @@ class Parser
 		$type = $argumentDefinition["type"];
 		$options = $argumentDefinition["options"];
 		return $this->factory->createArgument($type, $options);
+	}
+
+	/**
+	 * parse arguments
+	 * @param array $arguments set of arguments
+	 * @return Parser reference to this instance
+	 */
+	private function parseArguments(array $arguments) : Parser
+	{
+		$data = new Parser\Data($arguments);
+
+		foreach ($this->arguments as $argument)
+		{
+			$argument->parseValue($data);
+		}
+
+		return $this;
 	}
 
 }

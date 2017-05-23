@@ -19,6 +19,7 @@ class Positional extends AArgument
 		// all is ok
 		$this->lastParsedValue = $currentItem;
 		$this->parsed = true;
+        $data->next();
 
 		return $this;
 	}

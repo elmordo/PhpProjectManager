@@ -34,14 +34,15 @@ $routeParams = [
 			"options" => [
 				"token" => "foo",
 				"required" => true,
-				"name" => "placeholder,"
+				"name" => "placeholder",
 			],
 		],
 		[
 			"type" => "positional",
 			"options" => [
 				"required" => true,
-				"name" => "controller"
+				"name" => "controller",
+				"mapping" => "hovno2",
 			],
 		],
 	],

@@ -8,6 +8,21 @@ class StaticText extends AArgument
 
 	protected $token;
 
+	public function setOptions(array $options) : AArgument
+	{
+		foreach ($options as $key => $val)
+		{
+			switch ($key)
+			{
+			case "token":
+				$this->setToken((string) $val);
+				break;
+			}
+		}
+
+		return parent::setOptions($options);
+	}
+
 	public function getToken() : string
 	{
 		return $this->token;
@@ -15,7 +30,7 @@ class StaticText extends AArgument
 
 	public function setToken(string $value) : StaticText
 	{
-		$this->token = $token;
+		$this->token = $value;
 		return $this;
 	}
 
@@ -40,6 +55,9 @@ class StaticText extends AArgument
 			throw new Exception("Unable to parse data.", 400);
 
 		}
+
+		// move to next position
+		$data->next();
 
 		return $this;
 	}
