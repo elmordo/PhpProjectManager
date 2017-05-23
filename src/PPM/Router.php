@@ -29,6 +29,15 @@ class Router
 	{
 		$result = null;
 
+	 	foreach ($this->routes as $route)
+        {
+            if ($route->match($args))
+            {
+                $result = $route;
+                break;
+            }
+        }
+
 		if (is_null($result))
 			throw new Router\Exception("No matching route found", 500);
 

@@ -29,7 +29,7 @@ class StaticText extends AArgument
 	{
 		$currentItem = $data->current();
 
-		if ($currentItem == $this->text)
+		if ($currentItem == $this->token)
 		{
 			// all is ok
 			$this->lastParsedValue = $currentItem;

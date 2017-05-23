@@ -46,7 +46,7 @@ class Data implements \Iterator
 
     public function current()
     {
-        return $this->data[$position];
+        return $this->data[$this->position];
     }
 
     public function key()

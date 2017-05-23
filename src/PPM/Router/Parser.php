@@ -44,6 +44,12 @@ class Parser
 	public function parse(array $arguments) : array
 	{
 		$result = [];
+		$data = new Parser\Data($arguments);
+
+		foreach ($this->arguments as $argument)
+		{
+			$argument->parseValue($data);
+		}
 
 		return $result;
 	}
