@@ -8,7 +8,7 @@ class Factory
 
 	const TYPE_STATIC = "static";
 
-	const TYPE_DYNAMIC = "dynamic";
+	const TYPE_DYNAMIC = "positional";
 
 	public function createArgument(string $type, array $options) : IArgument
 	{
@@ -19,7 +19,7 @@ class Factory
 			break;
 
 		case self::TYPE_DYNAMIC:
-			$instance = new DynamicText();
+			$instance = new Positional();
 			break;
 
 		default:

@@ -38,7 +38,7 @@ $routeParams = [
 			],
 		],
 		[
-			"type" => "dynamic",
+			"type" => "positional",
 			"options" => [
 				"required" => true,
 				"name" => "controller"

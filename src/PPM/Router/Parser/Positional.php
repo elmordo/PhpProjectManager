@@ -3,7 +3,7 @@
 namespace PPM\Router\Parser;
 
 
-class DynamicText extends AArgument
+class Positional extends AArgument
 {
 
     /**
