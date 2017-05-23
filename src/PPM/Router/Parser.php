@@ -8,7 +8,7 @@ class Parser
 
 	protected $factory;
 
-	protected $arguments = [];
+	protected $argumentGroups = [];
 
 	public function __construct()
 	{
@@ -64,10 +64,9 @@ class Parser
 	 */
 	public function validate() : Parser
 	{
-		foreach ($this->arguments as $argument)
+		foreach ($this->argumentGroups as $argumentGroup)
 		{
-			if ($argument->isRequired())
-				assert($argument->isParsed());
+			$argumentGroup->validate();
 		}
 
 		return $this;
@@ -81,11 +80,11 @@ class Parser
 	{
 		$result = [];
 
-		foreach ($this->arguments as $argument)
+		foreach ($this->argumentGroups as $argumentGroup)
 		{
 			try
 			{
-				$result[$argument->getMapping()] = $argument->getValue();
+				$result = array_merge($result, $argumentGroup->getLastData());
 			}
 			catch (\TypeError $e)
 			{
@@ -111,7 +110,7 @@ class Parser
 
 			if ($argument->isRequired())
 			{
-				$this->arguments[] = $argument;
+				$this->argumentGroups[] = new Parser\RequiredArgumentGroup($argument);
 				$optionalArgumentGroup = null;
 			}
 			else
@@ -145,9 +144,9 @@ class Parser
 	{
 		$data = new Parser\Data($arguments);
 
-		foreach ($this->arguments as $argument)
+		foreach ($this->argumentGroups as $argument)
 		{
-			$argument->parseValue($data);
+			$argument->parse($data);
 		}
 
 		return $this;

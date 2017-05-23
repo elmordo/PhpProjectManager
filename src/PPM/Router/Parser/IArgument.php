@@ -50,7 +50,7 @@ interface IArgument
      * parse value from data
      * @param Data $data data to parse
      * @return string parsed value
-     * @throws Exception data cab bit ve oarsed
+     * @throws Exception data can not be parsed
      */
     public function parseValue(Data $data) : IArgument;
 

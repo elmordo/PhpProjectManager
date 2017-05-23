@@ -27,7 +27,7 @@ $serviceManager->setService("project", new \PPM\Service\ServiceProvider(new \PPM
 // try to setup one route
 $router = $serviceManager->getService("router");
 
-$routeParams = [
+$routeParams1 = [
 	"definition" => [
 		[
 			"type" => "static",
@@ -52,7 +52,33 @@ $routeParams = [
 	"name" => "my_route",
 ];
 
-$route = $router->createRoute()->setupFromArray($routeParams);
+$routeParams2 = [
+	"definition" => [
+		[
+			"type" => "static",
+			"options" => [
+				"required" => true,
+				"name" => "mrdka",
+			],
+		],
+		[
+			"type" => "positional",
+			"options" => [
+				"required" => true,
+				"name" => "controller",
+				"mapping" => "hovno2",
+			],
+		],
+	],
+	"defaults" => [
+		"kunda" => "your",
+		"action" => "bitch",
+	],
+	"name" => "my_route",
+];
+
+$router->createRoute()->setupFromArray($routeParams1);
+$router->createRoute()->setupFromArray($routeParams2);
 
 $args = [ "placeholder", "bar" ];
 var_dump($router->match($args)->getParams());
