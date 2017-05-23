@@ -45,8 +45,11 @@ $routeParams = [
 			],
 		],
 	],
+	"defaults" => [
+		"controller" => "my",
+		"action" => "bitch",
+	],
 	"name" => "my_route",
-	"defaults" => [ "action" => "kokot" ],
 ];
 
 $route = $router->createRoute()->setupFromArray($routeParams);

@@ -114,7 +114,8 @@ class Route implements IRoute
 
 		try
 		{
-			$this->params = $this->parser->parse($args);
+			$parsedData = $this->parser->parse($args);
+			$this->params = array_merge($this->defaults, $parsedData);
 		}
 		catch (Parser\Exception $e)
 		{
