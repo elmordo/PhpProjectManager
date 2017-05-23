@@ -10,6 +10,8 @@ class Factory
 
 	const TYPE_DYNAMIC = "positional";
 
+	const TYPE_FLAG = "flag";
+
 	public function createArgument(string $type, array $options) : IArgument
 	{
 		switch ($type)
@@ -20,6 +22,10 @@ class Factory
 
 		case self::TYPE_DYNAMIC:
 			$instance = new Positional();
+			break;
+
+		case self::TYPE_FLAG:
+			$instance = new Flag();
 			break;
 
 		default:

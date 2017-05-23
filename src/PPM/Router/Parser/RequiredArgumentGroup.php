@@ -49,7 +49,7 @@ class RequiredArgumentGroup implements IArgumentGroup
      */
     public function parse(Data $data) : array
     {
-        $this->argument->parseValue($data);
+        $this->argument->reset()->parseValue($data);
         return $this->getLastData();
     }
 

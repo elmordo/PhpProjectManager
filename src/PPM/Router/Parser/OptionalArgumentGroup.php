@@ -31,25 +31,35 @@ class OptionalArgumentGroup implements IArgumentGroup
     {
         $rest = $this->arguments;
 
-        do
-        {
-            $last = $rest;
+        foreach ($this->arguments as $argument)
+            $argument->reset();
 
-            foreach ($rest as $key => $argument)
+        try
+        {
+            do
             {
-                try
+                $last = $rest;
+
+                foreach ($rest as $key => $argument)
                 {
-                    $argument->parseValue($data);
-                    unset($rest[$key]);
-                    break;
-                }
-                catch (Exception $e)
-                {
-                    // nothing to do
+                    try
+                    {
+                        $argument->parseValue($data);
+                        unset($rest[$key]);
+                        break;
+                    }
+                    catch (Exception $e)
+                    {
+                        // nothing to do
+                    }
                 }
             }
+            while (count($rest) > 0 && count($rest) != count($last));
         }
-        while (count($rest) > 0 && count($rest) != count($last));
+        catch (\OverflowException $e)
+        {
+            // nothing to do
+        }
 
         return $this->getLastData();
     }

@@ -46,6 +46,9 @@ class Data implements \Iterator
 
     public function current()
     {
+        if ($this->position >= $this->length)
+            throw new \OverflowException();
+
         return $this->data[$this->position];
     }
 

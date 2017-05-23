@@ -197,7 +197,9 @@ abstract class AArgument implements IArgument
      */
     public function reset() : IArgument
     {
+        $this->parsed = false;
     	$this->lastParsedValue = $this->defaultValue;
+        return $this;
     }
 
     /**

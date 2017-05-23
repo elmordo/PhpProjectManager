@@ -115,8 +115,13 @@ class Parser
 			}
 			else
 			{
-				throw new \Exception("Optional arguments are not supported", 1);
+				if (is_null($optionalArgumentGroup))
+				{
+					$optionalArgumentGroup = new Parser\OptionalArgumentGroup();
+					$this->argumentGroups[] = $optionalArgumentGroup;
+				}
 
+				$optionalArgumentGroup->addArgument($argument);
 			}
 		}
 

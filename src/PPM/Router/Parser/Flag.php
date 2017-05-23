@@ -6,7 +6,7 @@ namespace PPM\Router\Parser;
 class Flag extends AArgument
 {
 
-    protected $foundValue = true;
+    protected $foundValue = "1";
 
     /**
      * set requried flag to true
@@ -19,6 +19,8 @@ class Flag extends AArgument
     {
         parent::__construct($name, $description, $defaultValue);
         $this->required = false;
+        $this->parsed = true;
+        $this->defaultValue = "0";
     }
 
     /**
@@ -55,7 +57,7 @@ class Flag extends AArgument
             throw new Exception();
 
         // all is ok
-        $this->lastParsedValue = $currentItem;
+        $this->lastParsedValue = $this->foundValue;
         $this->parsed = true;
         $data->next();
 
@@ -70,6 +72,11 @@ class Flag extends AArgument
         return parent::setRequired($value);
     }
 
-
+    public function reset() : IArgument
+    {
+        parent::reset();
+        $this->parsed = true;
+        return $this;
+    }
 
 }

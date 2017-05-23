@@ -44,6 +44,13 @@ $routeParams1 = [
 				"mapping" => "hovno2",
 			],
 		],
+        [
+            "type" => "flag",
+            "options" => [
+                "name" => "prdelka",
+                "mapping" => "prdelka",
+            ],
+        ],
 	],
 	"defaults" => [
 		"controller" => "my",
@@ -61,14 +68,14 @@ $routeParams2 = [
 				"name" => "mrdka",
 			],
 		],
-		[
-			"type" => "positional",
-			"options" => [
-				"required" => true,
-				"name" => "controller",
-				"mapping" => "hovno2",
-			],
-		],
+        [
+            "type" => "positional",
+            "options" => [
+                "required" => true,
+                "name" => "controller",
+                "mapping" => "hovno2",
+            ],
+        ],
 	],
 	"defaults" => [
 		"kunda" => "your",
@@ -80,7 +87,7 @@ $routeParams2 = [
 $router->createRoute()->setupFromArray($routeParams1);
 $router->createRoute()->setupFromArray($routeParams2);
 
-$args = [ "placeholder", "bar" ];
+$args = [ "placeholder", "bar", "prdelka" ];
 var_dump($router->match($args)->getParams());
 
 $application = $serviceManager->getService("application");
