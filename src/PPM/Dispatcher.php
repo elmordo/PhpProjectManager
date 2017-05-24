@@ -161,7 +161,7 @@ class Dispatcher
     public function renderView($controller, $action)
     {
         $templatePath = $this->templateResolver->getTemplate($controller, $action);
-        die(var_dump($templatePath) . "kokote");
+        die(var_dump($templatePath));
     }
 
 }

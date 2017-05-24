@@ -29,7 +29,7 @@ class Data implements \Iterator
         $maxLength = $this->length - $this->position;
 
         if ($maxLength < $length)
-            throw new \OverflowException();
+            throw new \OverflowException("Data buffer overflow");
 
         $result = array_slice($this->data, $this->position, $length);
         $this->position += $length;
@@ -47,7 +47,7 @@ class Data implements \Iterator
     public function current()
     {
         if ($this->position >= $this->length)
-            throw new \OverflowException();
+            throw new \OverflowException("Data buffer overflow");
 
         return $this->data[$this->position];
     }

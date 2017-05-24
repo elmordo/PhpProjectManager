@@ -149,11 +149,20 @@ class Parser
 	{
 		$data = new Parser\Data($arguments);
 
-		foreach ($this->argumentGroups as $argument)
+		try
 		{
-			$argument->parse($data);
+			foreach ($this->argumentGroups as $argument)
+			{
+				$argument->parse($data);
+			}
+		}
+		catch (\OverflowException $e)
+		{
+			// data can not be parsed
+			throw new Parser\Exception("Invalid data was providen");
 		}
 
+		// throw exception if some data left
 		if ($data->valid())
 			throw new Parser\Exception("Invalid data was providen");
 
