@@ -50,7 +50,7 @@ trait ServiceTrait
 	 * @param IServiceManager $manager new service manager to set
 	 * @return IService reference to this instance
 	 */
-	public function setServiceManager(IServiceManager $manager) : IService
+	public function setServiceManager(IServiceManager $manager) : IServiceManagerAware
 	{
 		$this->serviceManager = $manager;
 		return $this;

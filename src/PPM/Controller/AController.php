@@ -2,8 +2,11 @@
 
 namespace PPM\Controller;
 
+use PPM\Service\IServiceManagerAware;
+use PPM\Service\IServiceManager;
 
-abstract class AController extends IController
+
+abstract class AController implements IController
 {
 
     protected $serviceManager;
@@ -22,9 +25,19 @@ abstract class AController extends IController
      * @param IServiceManager $manager new service manager to set
      * @return IService reference to this instance
      */
-    public function setServiceManager(IServiceManager $manager) : IService
+    public function setServiceManager(IServiceManager $manager) : IServiceManagerAware
     {
         $this->serviceManager = $manager;
+        return $this;
+    }
+
+    /**
+     * do some action
+     * @param string $actionName action name
+     * @return IController reference to this instance
+     */
+    public function doActionCall(string $actionName) : IController
+    {
         return $this;
     }
 
