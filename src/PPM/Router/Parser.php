@@ -154,6 +154,9 @@ class Parser
 			$argument->parse($data);
 		}
 
+		if ($data->valid())
+			throw new Parser\Exception("Invalid data was providen");
+
 		return $this;
 	}
 

@@ -41,6 +41,7 @@ class Application implements IService
 
     public function handle($arguments)
     {
+        array_shift($arguments);
         $this->dispatcher->dispatch($arguments);
     }
 
