@@ -160,8 +160,10 @@ class Dispatcher
 
     public function renderView($controller, $action)
     {
+        $view = $this->getServiceManager()->getService("view");
         $templatePath = $this->templateResolver->getTemplate($controller, $action);
-        die(var_dump($templatePath));
+        $view->setTemplatePath($templatePath);
+        $view->render();
     }
 
 }

@@ -43,6 +43,8 @@ class Application implements IService
     {
         array_shift($arguments);
         $this->dispatcher->dispatch($arguments);
+
+        return $this->getServiceManager()->getService("view")->getContent();
     }
 
 }

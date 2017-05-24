@@ -13,7 +13,7 @@ class Service extends \PPM\Router implements IService
 
 	public function getDependencies() : array
 	{
-		return [ "config" ];
+		return [ "config", "view" ];
 	}
 
 	public function initialize()
