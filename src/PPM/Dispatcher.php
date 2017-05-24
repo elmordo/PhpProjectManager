@@ -2,6 +2,8 @@
 
 namespace PPM;
 
+use PPM\Controller\IController;
+
 
 class Dispatcher
 {
@@ -80,6 +82,7 @@ class Dispatcher
         }
 
         $controller = $this->resolveController($controllerBaseName);
+        $this->setupController($controller);
     }
 
     public function resolveController(string $controllerName) : IController
@@ -101,6 +104,17 @@ class Dispatcher
         }
 
         throw new Dispatcher\Exception(sprintf("Controller '%s' not found.", $controllerName));
+    }
+
+    /**
+     * setup controller
+     * @param IController $controller controller to setup
+     * @return IController setuped controller (instance from the argument)
+     */
+    private function setupController(IController $controller) : IController
+    {
+        $serviceManager = $this->getServiceManager();
+        $controller->setServiceManager();
     }
 
 }
