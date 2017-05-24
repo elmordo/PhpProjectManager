@@ -13,6 +13,8 @@ abstract class AController implements IController
 
     protected $serviceManager;
 
+    protected $view;
+
     /**
      * get service manager
      * @return IServiceManager current service manager
@@ -30,6 +32,7 @@ abstract class AController implements IController
     public function setServiceManager(IServiceManager $manager) : IServiceManagerAware
     {
         $this->serviceManager = $manager;
+        $this->view = $manager->getService("view");
         return $this;
     }
 
