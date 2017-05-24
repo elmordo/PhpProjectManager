@@ -18,6 +18,7 @@ class Service extends \PPM\Dispatcher implements IService
 
     public function initialize()
     {
+        $this->router = $this->getServiceManager()->getService("router");
     }
 
 }

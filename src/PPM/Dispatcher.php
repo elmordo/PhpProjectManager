@@ -22,6 +22,22 @@ class Dispatcher
     protected $router;
 
     /**
+     * set of path where controllers will be searched
+     * @var array
+     */
+    protected $controllerSearchPaths = [];
+
+    /**
+     * add new controller search path to instance
+     * @param Dispatcher\ControllerPath $pathSpecification controller search path
+     */
+    public function addControllerPath(Dispatcher\ControllerPath $pathSpecification) : Dispatcher
+    {
+        $this->controllerSearchPaths[] = $pathSpecification;
+        return $this;
+    }
+
+    /**
      * start dispatch loop
      */
     public function dispatch(array $args)
@@ -53,6 +69,15 @@ class Dispatcher
     {
         $route = $this->router->match($args);
         $parameters = $route->getParams();
+
+        $controller = $parameters["controller"] ?? null;
+        $action = $parameters["action"] ?? null;
+
+        if ($controller === null || $action === null)
+        {
+            // throw error
+            throw new Dispatcher\Exception("Invalid route specs. Controller or action is not set");
+        }
     }
 
 }
