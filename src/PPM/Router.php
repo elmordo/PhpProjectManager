@@ -9,8 +9,15 @@ use PPM\Router\Route;
 class Router
 {
 
+    /**
+     * @var array set of routes
+     */
 	protected $routes = [];
 
+    /**
+     * create new route and add it into internal route list
+     * @return IRoute new route instance
+     */
 	public function createRoute() : IRoute
 	{
 		$route = new Route();
@@ -19,10 +26,23 @@ class Router
 		return $route;
 	}
 
+    /**
+     * remove all routes
+     * @return Router reference to this instance
+     */
     public function clearRoutes() : Router
     {
         $this->routes = [];
         return $this;
+    }
+
+    /**
+     * return all registered routes
+     * @return array set of routes
+     */
+    public function getRoutes() : array
+    {
+        return $this->routes;
     }
 
 	/**
