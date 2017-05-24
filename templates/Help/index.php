@@ -1,7 +1,7 @@
 PhpProject manager help:
 ========================
 
-Routes (for more information run with arguments help <route_name>)
+Available commands:
 
 <?php
 $maxLength = 30;
