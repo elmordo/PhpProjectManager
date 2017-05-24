@@ -35,7 +35,7 @@ class Application implements IService
 
     public function handle($arguments)
     {
-        # code...
+        $this->dispatcher->dispatch($arguments);
     }
 
 }
