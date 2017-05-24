@@ -49,5 +49,6 @@ try
 }
 catch (\Exception $error)
 {
-
+	echo $error->getMessage() . "\n";
+	exit($error->getCode());
 }
