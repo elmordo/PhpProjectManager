@@ -1,21 +1,33 @@
 PhpProject manager help:
 ========================
 
-Routes (for more information run with argument help <route_name>)
+Routes (for more information run with arguments help <route_name>)
 
 <?php
 $maxLength = 30;
 
 foreach ($this->routes as $route)
 {
-    $name = $route->getName();
-    $descirption = $route->getDescription();
+    try
+    {
+        $name = $route->getName();
+        $descirption = $route->getDescription();
+    }
+    catch (\TypeError $e)
+    {
+        continue;
+    }
+
+    // skip route with no name
+    if (empty($name))
+        continue;
+
     $filler = "";
 
     for ($i = 0; $i < ($maxLength - strlen($name)); ++$i)
         $filler .= " ";
 
-    printf("%s%s%s", $name, $filler, $descirption);
+    printf("%s%s%s\n", $name, $filler, $descirption);
 }
 ?>
 

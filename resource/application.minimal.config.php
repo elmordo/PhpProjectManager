@@ -5,6 +5,7 @@ return [
         // route app initialization
         [
             "name" => "init",
+            "description" => "Initialize project in working directory",
             "defaults" => [
                 "controller" => "Project",
                 "action" => "init"
@@ -21,7 +22,7 @@ return [
 
         // route help (by empty)
         [
-            "name" => "help_empty",
+            "name" => "",
             "defaults" => [
                 "controller" => "Help",
                 "action" => "index"
@@ -33,6 +34,7 @@ return [
         // route help (by help command)
         [
             "name" => "help",
+            "description" => "Display this help.",
             "defaults" => [
                 "controller" => "Help",
                 "action" => "index"

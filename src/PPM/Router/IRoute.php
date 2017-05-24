@@ -20,6 +20,12 @@ interface IRoute
 	public function getName() : string;
 
 	/**
+	 * return description of route
+	 * @return string
+	 */
+	public function getDescription() : string;
+
+	/**
 	 * test arguments againts the route
 	 * @param array $args set of arguments
 	 * @return bool true if arguments match

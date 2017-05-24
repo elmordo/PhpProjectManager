@@ -17,6 +17,11 @@ class Route implements IRoute
 	protected $name;
 
 	/**
+	 * @var string route description
+	 */
+	protected $description;
+
+	/**
 	 * @var array default values
 	 */
 	protected $defaults = [];
@@ -50,6 +55,10 @@ class Route implements IRoute
 					$this->setName($value);
 					break;
 
+				case "description":
+					$this->setDescription((string)$value);
+					break;
+
 				case "defaults":
 					$this->setDefaults((array)$value);
 					break;
@@ -80,6 +89,26 @@ class Route implements IRoute
 	public function setName(string $value) : Route
 	{
 		$this->name = $value;
+		return $this;
+	}
+
+	/**
+	 * return route description
+	 * @return string route description
+	 */
+	public function getDescription() : string
+	{
+		return $this->description;
+	}
+
+	/**
+	 * set description
+	 * @param string $value new description
+	 * @return Route reference to this instance
+	 */
+	public function setDescription(string $value) : Route
+	{
+		$this->description = $value;
 		return $this;
 	}
 
