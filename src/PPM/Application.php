@@ -15,6 +15,8 @@ class Application implements IService
 
     protected $basePath;
 
+    protected $dispatcher;
+
     public function getDependencies() : array
     {
         return [ "config" ];
@@ -23,6 +25,7 @@ class Application implements IService
     public function initialize()
     {
         $this->basePath = $_SERVER["PWD"];
+        $this->dispatcher = $this->getServiceManager()->getService("dispatcher");
     }
 
     public function getBasePath() : string

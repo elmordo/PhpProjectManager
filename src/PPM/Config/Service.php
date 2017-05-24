@@ -20,7 +20,7 @@ class Service extends \PPM\Config implements \PPM\Service\IService
 
 	public function initialize()
 	{
-		$configData = include __DIR__ . "/../../../resource/application.default.config.php";
+		$configData = include __DIR__ . "/../../../resource/application.minimal.config.php";
 		$this->mergeWithArray($configData);
 	}
 

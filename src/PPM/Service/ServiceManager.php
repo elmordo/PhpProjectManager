@@ -32,6 +32,11 @@ class ServiceManager implements IServiceManager
 		return $this->services[$name]->getInstance();
 	}
 
+	public function getServices() : array
+	{
+		return $this->services;
+	}
+
 	/**
 	 * register new service into manager
 	 * @param string $name name of new service

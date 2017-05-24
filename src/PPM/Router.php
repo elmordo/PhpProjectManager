@@ -19,6 +19,12 @@ class Router
 		return $route;
 	}
 
+    public function clearRoutes() : Router
+    {
+        $this->routes = [];
+        return $this;
+    }
+
 	/**
 	 * try to match route
 	 * @param array $arguments from command line

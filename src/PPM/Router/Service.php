@@ -18,7 +18,21 @@ class Service extends \PPM\Router implements IService
 
 	public function initialize()
 	{
-		# code...
+        $this->clearRoutes();
+		$this->setupRoutesFromConfig();
 	}
+
+    public function setupRoutesFromConfig() : Service
+    {
+        $config = $this->getServiceManager()->getService("config");
+        $routes = $config->routes->toArray();
+
+        foreach ($routes as $route)
+        {
+            $this->createRoute()->setupFromArray($route);
+        }
+
+        return $this;
+    }
 
 }
