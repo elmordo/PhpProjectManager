@@ -58,6 +58,12 @@ class ConfigData
 		return $this->getValue($name);
 	}
 
+	public function mergeWith(ConfigData $other) : ConfigData
+	{
+		$this->mergeWithArray($other->toArray());
+		return $this;
+	}
+
 	/**
 	 * inplace merge current data with new array config data
 	 * @param array $data data to merge with

@@ -18,21 +18,31 @@ $currentPath = $_SERVER["PWD"];
 
 // setup application
 $serviceManager = new Service\ServiceManager();
+$configAdapterFactory = new PPM\Config\Adapter\Factory();
 
 // config setup
 $configService = new PPM\Config\Service();
 
 // setup application config
-$configs = [ ".ppm.global.php", ".ppm.global.php", ];
+$configs = [
+    joinPath(__DIR__, "../resource/application.minimal.config.php"),
+    joinPath($currentPath, ".ppm.global.php"),
+    joinPath($currentPath, ".ppm.global.php"),
+];
 
-foreach ($configs as $config)
+foreach ($configs as $path)
 {
-    $fullPath = joinPath($currentPath, $config);
-    if (is_file($fullPath))
+    try
     {
-        $configData = inlcude($fullPath);
-        $configService->mergeWithArray($configData);
+        $adapter = $configAdapterFactory->createAdapter($path);
+        $config = $adapter->load();
     }
+    catch (\PPM\Config\Adapter\Exception $e)
+    {
+        continue;
+    }
+
+    $configService->mergeWith($config);
 }
 
 // setup dispatcher
