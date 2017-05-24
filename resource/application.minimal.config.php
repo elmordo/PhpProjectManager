@@ -6,7 +6,7 @@ return [
         [
             "name" => "init",
             "defaults" => [
-                "controller" => "project",
+                "controller" => "Project",
                 "action" => "init"
             ],
             "definition" => [
@@ -23,7 +23,7 @@ return [
         [
             "name" => "help_empty",
             "defaults" => [
-                "controller" => "help",
+                "controller" => "Help",
                 "action" => "index"
             ],
             "definition" => [
@@ -34,7 +34,7 @@ return [
         [
             "name" => "help",
             "defaults" => [
-                "controller" => "help",
+                "controller" => "Help",
                 "action" => "index"
             ],
             "definition" => [
