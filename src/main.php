@@ -56,6 +56,6 @@ try
 catch (\Exception $error)
 {
 	echo "Error: " . $error->getMessage() . "\n";
-    echo var_dump($error->getTrace()) . "\n";
+    echo var_dump($error->getTraceAsString()) . "\n";
 	exit($error->getCode());
 }
