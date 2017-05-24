@@ -83,6 +83,9 @@ class Dispatcher
 
         $controller = $this->resolveController($controllerBaseName);
         $this->setupController($controller);
+
+        // do action
+        $controller->doActionCall($actionBaseName);
     }
 
     public function resolveController(string $controllerName) : IController
