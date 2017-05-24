@@ -9,6 +9,8 @@ use PPM\Service\IServiceManager;
 abstract class AController implements IController
 {
 
+    const ACTION_SUFIX = "Action";
+
     protected $serviceManager;
 
     /**
@@ -38,6 +40,15 @@ abstract class AController implements IController
      */
     public function doActionCall(string $actionName) : IController
     {
+        $methodName = $actionName . self::ACTION_SUFIX;
+
+        if (!method_exists($this, $methodName))
+        {
+            throw new Exception("Method '$methodName' does not exists", 404);
+        }
+
+        $this->{$methodName}();
+
         return $this;
     }
 
