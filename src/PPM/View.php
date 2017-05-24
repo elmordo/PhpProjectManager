@@ -2,8 +2,10 @@
 
 namespace PPM;
 
+use PPM\View\IView;
 
-class View implements View\IView
+
+class View implements IView
 {
 
     private $__templatePath;
@@ -50,7 +52,17 @@ class View implements View\IView
      * render template
      * @return string rendered content
      */
-    public function render() : string;
+    public function render() : string
+    {
+        if (!is_file($this->__templatePath))
+            throw new View\Exception("Template '" . $this->__templatePath . "' not found", 500);
+
+        ob_start();
+        include $this->__templatePath;
+        $content = ob_get_clean();
+
+        return $content;
+    }
 
     /**
      * set new variable
