@@ -114,7 +114,9 @@ class Dispatcher
     private function setupController(IController $controller) : IController
     {
         $serviceManager = $this->getServiceManager();
-        $controller->setServiceManager();
+        $controller->setServiceManager($serviceManager);
+
+        return $controller;
     }
 
 }
