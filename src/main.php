@@ -36,6 +36,7 @@ foreach ($configs as $config)
 }
 
 $serviceManager->setService("config", new \PPM\Service\ServiceProvider($configService));
+$serviceManager->setService("view", new \PPM\Service\ServiceProvider(new \PPM\View\Service));
 $serviceManager->setService("router", new \PPM\Service\ServiceProvider(new \PPM\Router\Service(), [ "config" ]));
 $serviceManager->setService("dispatcher", new \PPM\Service\ServiceProvider(new \PPM\Dispatcher\Service(), [ "router" ]));
 $serviceManager->setService("application", new \PPM\Service\ServiceProvider(new \PPM\Application(), [ "config", "dispatcher" ]));
