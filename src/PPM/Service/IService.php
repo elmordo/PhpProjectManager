@@ -3,7 +3,7 @@
 namespace PPM\Service;
 
 
-interface IService
+interface IService extends IServiceManagerAware
 {
 
 	/**
@@ -29,18 +29,5 @@ interface IService
 	 * @return IService reference to current instance
 	 */
 	public function setServiceProvider(IServiceProvider $provider) : IService;
-
-	/**
-	 * get service manager
-	 * @return IServiceManager current service manager
-	 */
-	public function getServiceManager() : IServiceManager;
-
-	/**
-	 * set new service manager
-	 * @param IServiceManager $manager new service manager to set
-	 * @return IService reference to this instance
-	 */
-	public function setServiceManager(IServiceManager $manager) : IService;
 
 }
