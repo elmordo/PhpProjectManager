@@ -97,7 +97,7 @@ class Dispatcher
             if (is_file($fileName))
             {
                 require_once $fileName;
-                $className = $info->getNamespace() . "\\" . $controllerName;
+                $className = $info->getNamespace() . "\\" . $controllerName . $sufix;
 
                 return new $className();
             }
