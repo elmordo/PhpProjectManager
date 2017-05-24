@@ -61,23 +61,46 @@ class Dispatcher
         while (count($this->stack) > 0)
         {
             $currentArgs = array_shift($this->stack);
-            $this->processArgs($currentArgs);
+            $this->dispatchRequest($currentArgs);
         }
     }
 
-    private function processArgs(array $args)
+    private function dispatchRequest(array $args)
     {
         $route = $this->router->match($args);
         $parameters = $route->getParams();
 
-        $controller = $parameters["controller"] ?? null;
-        $action = $parameters["action"] ?? null;
+        $controllerBaseName = $parameters["controller"] ?? null;
+        $actionBaseName = $parameters["action"] ?? null;
 
-        if ($controller === null || $action === null)
+        if ($controllerBaseName === null || $actionBaseName === null)
         {
             // throw error
             throw new Dispatcher\Exception("Invalid route specs. Controller or action is not set");
         }
+
+        $controller = $this->resolveController($controllerBaseName);
+    }
+
+    public function resolveController(string $controllerName) : IController
+    {
+        foreach ($this->controllerSearchPaths as $info)
+        {
+            $path = $info->getPath();
+            $sufix = $info->getSufix();
+
+            $fileName = joinPath($path, $controllerName . $sufix . ".php");
+
+            if (is_file($fileName))
+            {
+                require_once $fileName;
+                $className = $info->getNamespace() . "\\" . $controllerName;
+
+                return new $className();
+            }
+        }
+
+        throw new Dispatcher\Exception(sprintf("Controller '%s' not found.", $controllerName));
     }
 
 }

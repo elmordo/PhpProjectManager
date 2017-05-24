@@ -26,6 +26,12 @@ class Application implements IService
     {
         $this->basePath = $_SERVER["PWD"];
         $this->dispatcher = $this->getServiceManager()->getService("dispatcher");
+
+        $controllerPath = joinPath(__DIR__, "Controller");
+        $controllerNamespace = "PPM\Controller";
+        $pathInfo = new Dispatcher\ControllerPath($controllerPath, $controllerNamespace);
+
+        $this->dispatcher->addControllerPath($pathInfo);
     }
 
     public function getBasePath() : string
