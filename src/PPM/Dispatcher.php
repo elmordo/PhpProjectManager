@@ -30,6 +30,39 @@ class Dispatcher
     protected $controllerSearchPaths = [];
 
     /**
+     * @var Dispatcher\ITemplateResolver template name resolver
+     */
+    protected $templateResolver;
+
+    /**
+     * initialize instance
+     */
+    public function __construct()
+    {
+        $this->templateResolver = new Dispatcher\TemplateResolver();
+    }
+
+    /**
+     * return current template resolver
+     * @return ITemplateResolver current template resolver
+     */
+    public function getTemplateResolver() : Dispatcher\ITemplateResolver
+    {
+        return $this->templateResolver;
+    }
+
+    /**
+     * set new template resolver
+     * @param Dispatcher\ITemplateResolver $value new template resolver
+     * @return Dispatcher reference to this instance
+     */
+    public function setTemplateResolver(Dispatcher\ITemplateResolver $value) : Dispatcher
+    {
+        $this->templateResolver = $value;
+        return $this;
+    }
+
+    /**
      * add new controller search path to instance
      * @param Dispatcher\ControllerPath $pathSpecification controller search path
      */
@@ -86,6 +119,9 @@ class Dispatcher
 
         // do action
         $controller->doActionCall($actionBaseName);
+
+        // render view
+        $this->renderView($controllerBaseName, $actionBaseName);
     }
 
     public function resolveController(string $controllerName) : IController
@@ -120,6 +156,12 @@ class Dispatcher
         $controller->setServiceManager($serviceManager);
 
         return $controller;
+    }
+
+    public function renderView($controller, $action)
+    {
+        $templatePath = $this->templateResolver->getTemplate($controller, $action);
+        die(var_dump($templatePath) . "kokote");
     }
 
 }
