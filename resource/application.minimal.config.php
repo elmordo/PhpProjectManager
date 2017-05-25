@@ -52,5 +52,29 @@ return [
             ], // end definition
         ], // end help empty
 
+        // route module discover
+        [
+            "name" => "module discover",
+            "description" => "Initialize project in working directory",
+            "defaults" => [
+                "controller" => "Module",
+                "action" => "discover"
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "module"
+                    ],
+                ], // end argument module
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "discover"
+                    ],
+                ], // end argument discover
+            ], // end definition
+        ], // end module discover
+
     ],
 ];

@@ -16,7 +16,8 @@ class ProjectController extends AController
     public function initAction()
     {
         // prepare new config instance
-        $config = new ConfigData($this->getServiceManager()->getService("config")->toArray());
+        $mainConfig = $this->getServiceManager()->getService("config")->toArray();
+        $config = new ConfigData($mainConfig);
 
         // prepare file names
         $application = $this->getServiceManager()->getService("application");
@@ -32,17 +33,20 @@ class ProjectController extends AController
         $adapter->save($globalAppConfig);
 
         // save local config
-        $localConfig = new ConfigData([]);
+        $emptyConfig = [];
+        $localConfig = new ConfigData($emptyConfig);
         $adapter->setFileName($localConfigFileName);
         $adapter->save($localConfig);
     }
 
     protected function getGlobalAppConfig(ConfigData $initialData=null)
     {
-        $result = new ConfigData([]);
+        $emptyConfig = [];
+        $result = new ConfigData($emptyConfig);
 
         if ($initialData)
             $result->mergeWith($initialData);
+
 
         $fileName = $this->getAppConfigFileName();
         $factory = new ConfigAdapterFactory();
