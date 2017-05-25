@@ -3,9 +3,10 @@
 namespace PPM\Config\Adapter;
 
 use PPM\Config\ConfigData;
+use PPM\Config\IAdapter;
 
 
-class AParsedFileAdapter extends AParsedFileAdapter
+abstract class AParsedFileAdapter extends AFileAdapter
 {
 
     /**

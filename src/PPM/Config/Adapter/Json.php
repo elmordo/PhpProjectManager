@@ -3,7 +3,7 @@
 namespace PPM\Config\Adapter;
 
 
-class Json extends AFileAdapter
+class Json extends AParsedFileAdapter
 {
 
     /**
