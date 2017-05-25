@@ -163,7 +163,15 @@ class Dispatcher
         $view = $this->getServiceManager()->getService("view");
         $templatePath = $this->templateResolver->getTemplate($controller, $action);
         $view->setTemplatePath($templatePath);
-        $view->render();
+
+        try
+        {
+            $view->render();
+        }
+        catch (\PPM\View\Exception $e)
+        {
+            // nothing to do
+        }
     }
 
 }
