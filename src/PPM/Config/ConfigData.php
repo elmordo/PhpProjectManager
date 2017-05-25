@@ -15,7 +15,7 @@ class ConfigData
 	 * create new instance initialized with configuration data
 	 * @param array $data configuration data
 	 */
-	public function __construct(array $data)
+	public function __construct(array &$data)
 	{
 		$this->data = $data;
 	}
@@ -41,10 +41,13 @@ class ConfigData
 		{
 			if (is_array($this->data[$name]))
 			{
-				$this->data[$name] = new ConfigData($this->data[$name]);
+				$value = new ConfigData($this->data[$name]);
+			}
+			else
+			{
+				$value = $this->data[$name];
 			}
 
-			$value = $this->data[$name];
 		}
 
 		return $value;
@@ -71,10 +74,8 @@ class ConfigData
 	 */
 	public function mergeWithArray(array $data) : ConfigData
 	{
-		$data = array_merge_recursive($this->data, $data);
-		$data = $this->removeDuplicates($data);
-
-		$this->data = $data;
+		$this->mergeArrayIntoFirst($this->data, $data);
+		$this->removeDuplicates($this->data);
 
 		return $this;
 	}
@@ -98,12 +99,37 @@ class ConfigData
 		return $result;
 	}
 
-	public function removeDuplicates(array $input) : array
+	private function mergeArrayIntoFirst(array &$array1, array $array2) : array
+	{
+		foreach ($array2 as $key => $value)
+		{
+			if (isset($array1[$key]))
+			{
+				if (is_array($value) && is_array($array1[$key]))
+				{
+					$this->mergeArrayIntoFirst($array1[$key], $value);
+				}
+				else
+				{
+					$array1[$key] = $value;
+				}
+			}
+			else
+			{
+				$array1[$key] = $value;
+			}
+		}
+
+		return $array1;
+	}
+
+	private function removeDuplicates(array &$input) : array
 	{
 		$result = [];
 
 		foreach ($input as $key => $val)
 		{
+
 			if (is_array($val))
 			{
 				$val = $this->removeDuplicates($val);
