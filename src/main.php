@@ -52,10 +52,10 @@ $dispatcher->getTemplateResolver()->setBasePath(joinPath(__DIR__, "/../templates
 $serviceManager->setService("config", new \PPM\Service\ServiceProvider($configService));
 $serviceManager->setService("view", new \PPM\Service\ServiceProvider(new \PPM\View\Service));
 $serviceManager->setService("router", new \PPM\Service\ServiceProvider(new \PPM\Router\Service(), [ "config" ]));
+$serviceManager->setService("io", new \PPM\Service\ServiceProvider(new \PPM\IO\Service(), [ "config" ]));
 $serviceManager->setService("dispatcher", new \PPM\Service\ServiceProvider($dispatcher, [ "router", "view" ]));
 $serviceManager->setService("application", new \PPM\Service\ServiceProvider(new \PPM\Application(), [ "config", "dispatcher" ]));
 $serviceManager->setService("project", new \PPM\Service\ServiceProvider(new \PPM\Project\Service(), [ "config", "application" ]));
-
 
 $application = $serviceManager->getService("application");
 

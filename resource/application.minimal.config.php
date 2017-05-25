@@ -1,6 +1,9 @@
 <?php
 
 return [
+    "io" => [
+        "adapter" => "\PPM\IO\Adapter\Console",
+    ],
     "routes" => [
         // route app initialization
         [
