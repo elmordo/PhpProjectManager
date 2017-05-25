@@ -8,16 +8,16 @@ use PPM\Project\Module;
 class Project
 {
 
-	protected $modules;
+	protected $moduleManager;
 
 	public function __construct()
 	{
-		$this->modules = new Module\Manager();
+		$this->moduleManager = new Module\Manager();
 	}
 
 	public function getModuleManager() : Module\Manager
 	{
-		return $this->modules;
+		return $this->moduleManager;
 	}
 
 }

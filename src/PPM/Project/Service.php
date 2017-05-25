@@ -28,6 +28,7 @@ class Service extends \PPM\Project implements IService
 		$config = $this->getServiceManager()->getService("config");
 		$basePath = $application->getBasePath();
 		$moduleDir = $config->getStrict("module_dir");
+		die(var_dump($moduleDir));
 		$modulePath = joinPath($basePath, $moduleDir);
 
 		$explorerClass = $config->getStrict("module_explorer");
