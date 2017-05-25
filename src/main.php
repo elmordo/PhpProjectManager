@@ -26,8 +26,8 @@ $configService = new PPM\Config\Service();
 // setup application config
 $configs = [
     joinPath(__DIR__, "../resource/application.minimal.config.php"),
-    joinPath($currentPath, ".ppm.global.php"),
-    joinPath($currentPath, ".ppm.global.php"),
+    joinPath($currentPath, ".ppm.global.json"),
+    joinPath($currentPath, ".ppm.global.json"),
 ];
 
 foreach ($configs as $path)
