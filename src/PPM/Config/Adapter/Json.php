@@ -13,7 +13,7 @@ class Json extends AParsedFileAdapter
      */
     public function encodeData(array $data) : string
     {
-        return json_encode($data);
+        return json_encode($data,  JSON_PRETTY_PRINT);
     }
 
     /**
@@ -23,7 +23,7 @@ class Json extends AParsedFileAdapter
      */
     public function decodeData(string $data) : array
     {
-        $decoded = json_decode($data);
+        $decoded = json_decode($data, true);
 
         return (array)$decoded;
     }

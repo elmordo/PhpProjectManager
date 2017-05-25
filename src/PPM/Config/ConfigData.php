@@ -71,7 +71,11 @@ class ConfigData
 	 */
 	public function mergeWithArray(array $data) : ConfigData
 	{
-		$this->data = array_merge($this->data, $data);
+		$data = array_merge_recursive($this->data, $data);
+		$data = $this->removeDuplicates($data);
+
+		$this->data = $data;
+
 		return $this;
 	}
 
@@ -90,6 +94,25 @@ class ConfigData
 
 			$result[$key] = $value;
 		}
+
+		return $result;
+	}
+
+	public function removeDuplicates(array $input) : array
+	{
+		$result = [];
+
+		foreach ($input as $key => $val)
+		{
+			if (is_array($val))
+			{
+				$val = $this->removeDuplicates($val);
+			}
+
+			$result[$key] = $val;
+		}
+
+		$result = array_unique($result, SORT_REGULAR);
 
 		return $result;
 	}

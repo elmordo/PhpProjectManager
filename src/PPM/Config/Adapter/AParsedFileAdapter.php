@@ -16,7 +16,7 @@ abstract class AParsedFileAdapter extends AFileAdapter
      */
     public function load() : ConfigData
     {
-        $content = $this->getDataFromFile($this->fileName);
+        $content = $this->getDataFromFile($this->getFileName());
         $dataArray = $this->decodeData($content);
 
         return new ConfigData($dataArray);
@@ -32,7 +32,7 @@ abstract class AParsedFileAdapter extends AFileAdapter
     {
         $dataArray = $data->toArray();
         $content = $this->encodeData($dataArray);
-        $this->putDataToFile($this->fileName, $content);
+        $this->putDataToFile($this->getFileName(), $content);
 
         return $this;
     }
