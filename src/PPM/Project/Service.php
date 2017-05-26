@@ -18,29 +18,16 @@ class Service extends \PPM\Project implements IService
 
 	public function initialize()
 	{
-		$this->loadModules();
+		$this->loadConfiguredModules();
 	}
 
-	private function loadModules()
+	public function searchForModules($value='')
 	{
-		// setup explorer
-		$application = $this->getServiceManager()->getService("application");
-		$config = $this->getServiceManager()->getService("config");
-		$basePath = $application->getBasePath();
-		$moduleDir = $config->getStrict("module_dir");
-		die(var_dump($moduleDir));
-		$modulePath = joinPath($basePath, $moduleDir);
+		# code...
+	}
 
-		$explorerClass = $config->getStrict("module_explorer");
-
-		// setup explorer
-		$explorer = new $explorerClass;
-		$explorer->addDirectory($modulePath);
-
-		$modules = $explorer->explore();
-
-		foreach ($modules as $module)
-			$this->modules->addModule($module);
+	private function loadConfiguredModules()
+	{
 	}
 
 }
