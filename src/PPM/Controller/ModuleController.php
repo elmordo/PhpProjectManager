@@ -4,6 +4,7 @@ namespace PPM\Controller;
 
 use PPM\Project;
 use PPM\Project\Module\Manager as ModuleManager;
+use PPM\Project\Module\Module;
 
 class ModuleController extends AController
 {
@@ -11,12 +12,45 @@ class ModuleController extends AController
     public function discoverAction()
     {
         $project = $this->getServiceManager()->getService("project");
+        $io = $this->getServiceManager()->getService("io");
         $moduleManager = $project->getModuleManager();
 
         // setup explorer
         $allModules = $this->loadAllModules();
         $newModules = $this->filterExisting($allModules, $moduleManager);
-        var_dump($newModules);
+
+        try
+        {
+            $modulesToAdd = $this->askForModulesAdd($newModules);
+        }
+        catch (\PPM\IO\AbortException $e)
+        {
+            $io->write("Operation was aborted. Do nothing.");
+            return;
+        }
+
+        var_dump($modulesToAdd);
+    }
+
+    protected function askForModulesAdd(array $modules) : array
+    {
+        $result = [];
+
+        foreach ($modules as $module)
+        {
+            if ($this->askForModuleAction("Do you want to add module \"{{name}}\"?", $module))
+                $result[] = $module;
+        }
+
+        return $result;
+    }
+
+    protected function askForModuleAction(string $template, Module $module) : bool
+    {
+        $question = strtr($template, [ "{{name}}" => $module->getName() ]);
+        $io = $this->getServiceManager()->getService("io");
+
+        return $io->askYesNoAbort($question);
     }
 
     protected function filterExisting(array $allModules, ModuleManager $moduleManager) : array
