@@ -15,8 +15,9 @@ interface IAdapter
     /**
      * write data to output
      * @param string $message data to write
+     * @param bool $breakLine if true, add break line
      * @return IAdapter reference to this instance
      */
-    public function write(string $message) : IAdapter;
+    public function write(string $message, bool $breakLine=true) : IAdapter;
 
 }
