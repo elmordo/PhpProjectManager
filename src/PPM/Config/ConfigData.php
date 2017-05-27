@@ -30,6 +30,11 @@ class ConfigData
 		return $this->getValue($name);
 	}
 
+    public function __set(string $name, $value)
+    {
+        $this->setValue($name, $value);
+    }
+
 	public function getValue(string $name, $default=null)
 	{
 		if (!isset($this->data[$name]))
@@ -60,6 +65,12 @@ class ConfigData
 
 		return $this->getValue($name);
 	}
+
+    public function setValue(string $name, $value) : ConfigData
+    {
+        $this->data[$name] = $value;
+        return $this;
+    }
 
 	public function mergeWith(ConfigData $other) : ConfigData
 	{

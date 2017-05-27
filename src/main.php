@@ -22,11 +22,12 @@ $configAdapterFactory = new PPM\Config\Adapter\Factory();
 
 // config setup
 $configService = new PPM\Config\Service();
+$globalConfigPath = joinPath($currentPath, \PPM\Controller\ProjectController::APP_GLOBAL_CONFIG);
 
 // setup application config
 $configs = [
     joinPath(__DIR__, "../resource/application.minimal.config.php"),
-    joinPath($currentPath, \PPM\Controller\ProjectController::APP_GLOBAL_CONFIG),
+    $globalConfigPath,
     joinPath($currentPath, \PPM\Controller\ProjectController::APP_LOCAL_CONFIG),
 ];
 
@@ -48,6 +49,18 @@ foreach ($configs as $path)
 // setup dispatcher
 $dispatcher = new \PPM\Dispatcher\Service();
 $dispatcher->getTemplateResolver()->setBasePath(joinPath(__DIR__, "/../templates"));
+
+try
+{
+    $globalConfigAdapter = $configAdapterFactory->createAdapter($globalConfigPath);
+    $service = new \PPM\Config\Adapter\Service();
+    $service->setAdapter($globalConfigAdapter);
+    $serviceManager->setService("globalConfigAdapter", new \PPM\Service\ServiceProvider($service, []));
+}
+catch (\PPM\Config\Adapter\Exception $e)
+{
+    // do nothing
+}
 
 $serviceManager->setService("config", new \PPM\Service\ServiceProvider($configService));
 $serviceManager->setService("view", new \PPM\Service\ServiceProvider(new \PPM\View\Service));
