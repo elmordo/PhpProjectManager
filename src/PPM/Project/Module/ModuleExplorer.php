@@ -53,7 +53,7 @@ class ModuleExplorer implements IModuleExplorer
 
         foreach ($this->directories as $directory)
         {
-            $path = joinPath($directory, $moduleName);
+            $path = $this->constructModulePath($directory, $moduleName);
 
             if (is_dir($path))
             {
@@ -76,7 +76,21 @@ class ModuleExplorer implements IModuleExplorer
      */
     public function initializeModule($moduleName, ConfigData $globalConfig, ConfigData $localConfig) : Module
     {
+        $modulePath = null;
 
+        foreach ($this->directories as $directory)
+        {
+            $path = $this->constructModulePath($directory, $moduleName);
+
+            if (is_dir($path))
+                $modulePath = $path;
+        }
+
+        if ($modulePath === null)
+            throw new Exception("Module '$moduleName' not found", 404);
+
+
+        return $this->constructModule($modulePath);
     }
 
     /**
@@ -97,7 +111,7 @@ class ModuleExplorer implements IModuleExplorer
                 // skip . and ..
                 continue;
 
-            $path = joinPath($directory, $entry);
+            $path = $this->constructModulePath($directory, $entry);
 
             if (is_dir($path))
             {
@@ -109,17 +123,64 @@ class ModuleExplorer implements IModuleExplorer
     }
 
     /**
+     * construct module path from module name and directory name
+     * @param string $directory name of directory
+     * @param string $moduleName name of module
+     * @return string path to the module directory
+     */
+    public function constructModulePath(string $directory, string $moduleName) : string
+    {
+        $relativePath = joinPath($directory, $moduleName);
+        $absolutePath = realpath($relativePath);
+        return $absolutePath;
+    }
+
+    /**
      * construct one module
      * @param string $directory path to module directory
      * @return Module instance of module
      */
-    public function constructModule(string $directory) : Module
+    private function constructModule(string $directory) : Module
     {
+        // get name
         $name = basename($directory);
-        $config = [];
+
+        // load config (if config is not found, directory is not registered
+        // module and can not be constructed)
+        $config = $this->loadModuleConfig($directory);
         $module = new Module($name, $directory, $config);
 
         return $module;
+    }
+
+    private function loadModuleConfig(string $directory) : ConfigData
+    {
+        $globalPath = joinPath($directory, self::GLOBAL_CONFIG_NAME);
+        $localPath = joinPath($directory, self::LOCAL_CONFIG_NAME);
+
+        // global config must exists
+        if (!is_file($globalPath))
+            throw new Exception("Can not load global config file "
+                . "'$globalPath'.", 500);
+
+        $factory = new PPM\Config\Adapter\Factory();
+        $adapter = $factory->createAdapter($globalPath);
+
+        $config = $adapter->load();
+
+        // load local config
+        try
+        {
+            $adapter = $factory->createAdapter($localConfig);
+            $localConfig = $adapter->load();
+            $config->mergeWith($localConfig);
+        }
+        catch (\Exception $e)
+        {
+            // error in local config loading -> shit happened
+        }
+
+        return $config;
     }
 
 }

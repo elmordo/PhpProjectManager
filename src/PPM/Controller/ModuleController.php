@@ -42,11 +42,11 @@ class ModuleController extends AController
         #$configAdapter->getAdapter()->save($config);
     }
 
-    protected function addModules(array $modules, ModuleManager $project)
+    protected function addModules(array $modules, ModuleManager $moduleManager)
     {
-        foreach ($modules as $module)
+        foreach ($modules as $moduleName)
         {
-            $project->initializeModule($module->getName());
+            $moduleManager->initializeModule($moduleName);
         }
     }
 
@@ -54,19 +54,19 @@ class ModuleController extends AController
     {
         $result = [];
 
-        foreach ($modules as $module)
+        foreach ($modules as $moduleName)
         {
-            if ($this->askForModuleAction("Do you want to add module \"{{name}}\"?", $module))
-                $result[] = $module;
+            if ($this->askForModuleAction("Do you want to add module \"{{name}}\"?", $moduleName))
+                $result[] = $moduleName;
             break;
         }
 
         return $result;
     }
 
-    protected function askForModuleAction(string $template, Module $module) : bool
+    protected function askForModuleAction(string $template, string $moduleName) : bool
     {
-        $question = strtr($template, [ "{{name}}" => $module->getName() ]);
+        $question = strtr($template, [ "{{name}}" => $moduleName ]);
         $io = $this->getServiceManager()->getService("io");
 
         return $io->askYesNoAbort($question);
@@ -76,13 +76,11 @@ class ModuleController extends AController
     {
         $result = [];
 
-        foreach ($allModules as $module)
+        foreach ($allModules as $moduleName)
         {
-            $moduleName = $module->getName();
-
             if (!$moduleManager->hasModule($moduleName))
             {
-                $result[] = $module;
+                $result[] = $moduleName;
             }
         }
 

@@ -40,7 +40,6 @@ class Service extends \PPM\Project implements IService
 
 		foreach ($moduleNames as $name)
 		{
-			var_dump($name);
 			$this->moduleManager->addModuleByName($name);
 		}
 	}

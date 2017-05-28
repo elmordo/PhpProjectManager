@@ -2,6 +2,8 @@
 
 namespace PPM\Project\Module;
 
+use PPM\Config\ConfigData;
+
 
 class Module
 {
@@ -12,7 +14,7 @@ class Module
 
     protected $config;
 
-    public function __construct(string $name, string $path, array $config=array())
+    public function __construct(string $name, string $path, ConfigData $config)
     {
     	$this->config = $config;
     	$this->name = $name;
