@@ -20,7 +20,7 @@ class Factory
 
     protected function resolveStringDefinition(string $definition) : IAdapter
     {
-        if (is_file($definition))
+        if (is_file($definition) || pathinfo($definition)["extension"])
         {
             return $this->resolveFileDefinition($definition);
         }

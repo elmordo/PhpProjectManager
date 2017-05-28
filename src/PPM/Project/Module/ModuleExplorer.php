@@ -3,6 +3,7 @@
 namespace PPM\Project\Module;
 
 use PPM\Config\ConfigData;
+use PPM\Config\Adapter\Factory as AdapterFactory;
 
 
 class ModuleExplorer implements IModuleExplorer
@@ -89,8 +90,19 @@ class ModuleExplorer implements IModuleExplorer
         if ($modulePath === null)
             throw new Exception("Module '$moduleName' not found", 404);
 
+        // write config files
+        $this->writeConfig($modulePath, self::GLOBAL_CONFIG_NAME, $globalConfig);
+        $this->writeConfig($modulePath, self::LOCAL_CONFIG_NAME, $localConfig);
 
         return $this->constructModule($modulePath);
+    }
+
+    private function writeConfig(string $directory, string $fileName, ConfigData $config)
+    {
+        $factory = new AdapterFactory();
+        $fullPath = joinPath($directory, $fileName);
+        $adapter = $factory->createAdapter($fullPath);
+        $adapter->save($config);
     }
 
     /**
@@ -163,7 +175,7 @@ class ModuleExplorer implements IModuleExplorer
             throw new Exception("Can not load global config file "
                 . "'$globalPath'.", 500);
 
-        $factory = new PPM\Config\Adapter\Factory();
+        $factory = new AdapterFactory();
         $adapter = $factory->createAdapter($globalPath);
 
         $config = $adapter->load();
@@ -171,7 +183,7 @@ class ModuleExplorer implements IModuleExplorer
         // load local config
         try
         {
-            $adapter = $factory->createAdapter($localConfig);
+            $adapter = $factory->createAdapter($localPath);
             $localConfig = $adapter->load();
             $config->mergeWith($localConfig);
         }

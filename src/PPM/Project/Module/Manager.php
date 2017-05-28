@@ -12,6 +12,41 @@ class Manager
 
     protected $modules = [];
 
+    protected $defaultGlobalConfig;
+
+    protected $defaultLocalConfig;
+
+    public function __construct()
+    {
+        $globalConfig = [];
+        $localConfig = [];
+
+        $this->defaultGlobalConfig = new ConfigData($globalConfig);
+        $this->defaultLocalConfig = new ConfigData($localConfig);
+    }
+
+    public function getDefaultGlobalConfig() : ConfigData
+    {
+        return $this->defaultGlobalConfig;
+    }
+
+    public function setDefaultGlobalConfig(ConfigData $value) : Manager
+    {
+        $this->defaultGlobalConfig = $value;
+        return $this;
+    }
+
+    public function getDefaultLocalConfig() : ConfigData
+    {
+        return $this->defaultLocalConfig;
+    }
+
+    public function setDefaultLocalConfig(ConfigData $value) : Manager
+    {
+        $this->defaultLocalConfig = $value;
+        return $this;
+    }
+
     public function getModuleExplorer() : IModuleExplorer
     {
         return $this->moduleExplorer;
@@ -23,14 +58,16 @@ class Manager
         return $this;
     }
 
-    public function initializeModule(string $moduleName)
+    public function initializeModule(string $moduleName) : Module
     {
-        $globalConfigData = [];
-        $globalConfig = new ConfigData($globalConfigData);
+        $module = $this->moduleExplorer->initializeModule(
+            $moduleName,
+            $this->defaultGlobalConfig,
+            $this->defaultLocalConfig);
 
-        $localConfigData = [];
-        $localConfig = new ConfigData($localConfigData);
-        $module = $this->moduleExplorer->initializeModule($moduleName, $globalConfig, $localConfig);
+        $this->modules[$module->getName()] = $module;
+
+        return $module;
     }
 
     public function addModuleByName(string $moduleName) : Module

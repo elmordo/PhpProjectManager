@@ -39,7 +39,7 @@ class ModuleController extends AController
         $configAdapter = $this->getServiceManager()->getService("globalConfigAdapter");
         $config = $configAdapter->getAdapter()->load();
         $config->modules = $moduleNames;
-        #$configAdapter->getAdapter()->save($config);
+        $configAdapter->getAdapter()->save($config);
     }
 
     protected function addModules(array $modules, ModuleManager $moduleManager)

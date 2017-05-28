@@ -1,3 +1,5 @@
 <?php
 
-return [];
+return [
+    "assets_dir" => "assets"
+];

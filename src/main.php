@@ -71,6 +71,16 @@ $serviceManager->setService("application", new \PPM\Service\ServiceProvider(new 
 $serviceManager->setService("project", new \PPM\Service\ServiceProvider(new \PPM\Project\Service(), [ "config", "application" ]));
 
 $application = $serviceManager->getService("application");
+$project = $serviceManager->getService("project");
+$moduleManager = $project->getModuleManager();
+
+// setup default global and local module config
+$globalModuleConfig = $configAdapterFactory->createAdapter(joinPath(__DIR__, "../resource/module.default.config.php"))->load();
+$localModuleConfigData = [];
+$localModuleConfig = new \PPM\Config\ConfigData($localModuleConfigData);
+
+$moduleManager->setDefaultGlobalConfig($globalModuleConfig);
+$moduleManager->setDefaultLocalConfig($localModuleConfig);
 
 try
 {
