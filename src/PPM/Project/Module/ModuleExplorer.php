@@ -58,7 +58,8 @@ class ModuleExplorer implements IModuleExplorer
 
             if (is_dir($path))
             {
-                $module = new Module($moduleName, $path);
+                $module = $this->constructModule($path);
+                break;
             }
         }
 
