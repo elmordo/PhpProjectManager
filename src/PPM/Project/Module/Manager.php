@@ -2,15 +2,42 @@
 
 namespace PPM\Project\Module;
 
+use PPM\Config\ConfigData;
+
 
 class Manager
 {
 
+    protected $moduleExplorer;
+
     protected $modules = [];
 
-    public function addModule(Module $module)
+    public function getModuleExplorer() : IModuleExplorer
     {
-        $this->modules[$module->getName()] = $module;
+        return $this->moduleExplorer;
+    }
+
+    public function setModuleExplorer(IModuleExplorer $value) : Manager
+    {
+        $this->moduleExplorer = $value;
+        return $this;
+    }
+
+    public function initializeModule(string $moduleName)
+    {
+        $globalConfigData = [];
+        $globalConfig = new ConfigData($globalConfigData);
+
+        $localConfigData = [];
+        $localConfig = new ConfigData($localConfigData);
+        $module = $this->moduleExplorer->initializeModule($moduleName, $globalConfig, $localConfig);
+    }
+
+    public function addModuleByName(string $moduleName) : Module
+    {
+        $module = $this->moduleExplorer->loadModule($moduleName);
+        $this->modules[$moduleName] = $module;
+        return $module;
     }
 
     /**
@@ -29,7 +56,7 @@ class Manager
         return false;
     }
 
-    public function getModules()
+    public function getModuleNames() : array
     {
         return array_keys($this->modules);
     }

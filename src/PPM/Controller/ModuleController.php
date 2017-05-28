@@ -29,7 +29,25 @@ class ModuleController extends AController
             return;
         }
 
-        var_dump($modulesToAdd);
+        // add modules to project and save config
+        $this->addModules($modulesToAdd, $project->getModuleManager());
+        $this->saveModulesConfig($project->getModuleManager()->getModuleNames());
+    }
+
+    protected function saveModulesConfig(array $moduleNames)
+    {
+        $configAdapter = $this->getServiceManager()->getService("globalConfigAdapter");
+        $config = $configAdapter->getAdapter()->load();
+        $config->modules = $moduleNames;
+        #$configAdapter->getAdapter()->save($config);
+    }
+
+    protected function addModules(array $modules, ModuleManager $project)
+    {
+        foreach ($modules as $module)
+        {
+            $project->initializeModule($module->getName());
+        }
     }
 
     protected function askForModulesAdd(array $modules) : array
@@ -40,6 +58,7 @@ class ModuleController extends AController
         {
             if ($this->askForModuleAction("Do you want to add module \"{{name}}\"?", $module))
                 $result[] = $module;
+            break;
         }
 
         return $result;
