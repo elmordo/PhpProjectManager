@@ -4,6 +4,7 @@ return [
     "io" => [
         "adapter" => "\PPM\IO\Adapter\Console",
     ],
+    "vcs" => "git",
     "routes" => [
         // route app initialization
         [
