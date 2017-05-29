@@ -61,16 +61,21 @@ class IO
         $selectedOption = false;
 
         // create full question
-        $fullQuestion = sprintf("%s (%s) ", $question, implode(", ", $choices));
+        $choicesManager = new IO\Choices($choices);
+        $fullQuestion = sprintf("%s %s ", $question, implode(" | ", $choicesManager->getRealLabels()));
 
         do
         {
             $response = $this->prompt($fullQuestion);
-            $selectedOption = array_search($response, $choices);
 
-            if ($selectedOption === false && $invalidChoiceMessage !== null)
+            try
             {
-                $this->write($invalidChoiceMessage);
+                $selectedOption = $choicesManager->evaluate($response);
+            }
+            catch (IO\Exception $e)
+            {
+                if (is_string($invalidChoiceMessage))
+                    $this->write($invalidChoiceMessage);
             }
         } while ($selectedOption === false);
 
