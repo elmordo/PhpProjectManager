@@ -40,8 +40,16 @@ interface IVcs
     /**
      * add changes into next commit
      * @param string $pattern pattern to filter items
+     * @return IVcs reference to this instance
      */
     public function add(string $pattern) : IVcs;
+
+    /**
+     * commit all added changes
+     * @param string|null $message commit message
+     * @return IVcs reference to this instance
+     */
+    public function commit(string $message=null) : IVcs;
 
     /**
      * push data to server

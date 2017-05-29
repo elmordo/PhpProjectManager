@@ -27,6 +27,26 @@ class VcsController extends AController
         }
     }
 
+    public function commitAllAction()
+    {
+        $serviceManager = $this->getServiceManager();
+        $project = $serviceManager->getService("project");
+        $application = $serviceManager->getService("application");
+        $config = $serviceManager->getService("config");
+
+        $vcsType = $config->getStrict("vcs");
+        $moduleManager = $project->getModuleManager();
+        $moduleNames = $moduleManager->getModuleNames();
+
+        foreach ($moduleNames as $moduleName)
+        {
+            $module = $moduleManager->getModule($moduleName);
+            $this->commit($module->getPath(), $vcsType);
+        }
+        $mainPath = $application->getBasePath();
+        $this->commit($mainPath, $vcsType);
+    }
+
     /**
      * do pull in given directory
      * @param string $path path to the directory
@@ -45,6 +65,19 @@ class VcsController extends AController
         else
         {
             echo "Path '$path' is not repository" . PHP_EOL;
+        }
+    }
+
+    public function commit(string $path, string $vcsType)
+    {
+        $factory = new \PPM\Vcs\Factory();
+        $vcs = $factory->createVcs($vcsType, $path);
+
+        if ($vcs->isInitialized())
+        {
+            echo "Commiting '$path'" . PHP_EOL;
+            $vcs->add("*");
+            $vcs->commit();
         }
     }
 

@@ -113,5 +113,23 @@ return [
             ], // end definition
         ], // end module discover
 
+        // route commit
+        [
+            "name" => "commit",
+            "description" => "Pull data from server in main repo and all modules",
+            "defaults" => [
+                "controller" => "Vcs",
+                "action" => "commitAll"
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "commit"
+                    ],
+                ], // end argument pull
+            ], // end definition
+        ], // end module discover
+
     ],
 ];

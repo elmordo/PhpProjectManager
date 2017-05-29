@@ -11,6 +11,10 @@ class Git implements IVcs
 
     const CMD_PULL = "git pull";
 
+    const CMD_ADD = "git add";
+
+    const CMD_COMMIT = "git commit";
+
     protected $basePath = ".";
 
     /**
@@ -67,7 +71,26 @@ class Git implements IVcs
      */
     public function add(string $pattern) : IVcs
     {
-        throw new Exception("Not implemented", 500);
+        $cmd = "cd '" . $this->basePath . "' && " . self::CMD_ADD . " " . $pattern;
+        passthru($cmd);
+        return $this;
+    }
+
+    /**
+     * commit all added changes
+     * @param string|null $message commit message
+     * @return IVcs reference to this instance
+     */
+    public function commit(string $message=null) : IVcs
+    {
+        $messageArg = "";
+
+        if ($message)
+            $messageArg = " -m '" . $message . "'";
+
+        $cmd = "cd '" . $this->basePath . "' && " . self::CMD_COMMIT . $messageArg;
+        passthru($cmd);
+        return $this;
     }
 
     /**
