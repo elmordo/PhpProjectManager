@@ -2,6 +2,9 @@
 
 namespace PPM\Vcs\Git;
 
+use PPM\Vcs\IVcs;
+use PPM\Vcs\IIgnoreFile;
+
 
 class Git implements IVcs
 {
@@ -90,7 +93,8 @@ class Git implements IVcs
      */
     public function getIgnoreFileInDirectory(string $path) : IIgnoreFile
     {
-        throw new Exception("Not implemented", 500);
+        $ignorePath = joinPath($path, ".gitignore");
+        return new IgnoreFile($ignorePath);
     }
 
 }

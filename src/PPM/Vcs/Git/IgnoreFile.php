@@ -76,6 +76,8 @@ class IgnoreFile implements IIgnoreFile
     public function save() : IIgnoreFile
     {
         $content = implode(self::LINE_BREAK, $this->entries);
+        $content = trim($content) . self::LINE_BREAK;
+
         file_put_contents($this->fileName, $content);
         return $this;
     }
@@ -103,6 +105,7 @@ class IgnoreFile implements IIgnoreFile
         }
 
         $this->entries = preg_split("/\\r\\n|\\r|\\n/", $content);
+        return $this;
     }
 
 }
