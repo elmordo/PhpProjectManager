@@ -47,4 +47,10 @@ interface IIgnoreFile
      */
     public function getFileName() : string;
 
+    /**
+     * reload data from file
+     * @return IIgnoreFile reference to this instance
+     */
+    public function reset() : IIgnoreFile;
+
 }
