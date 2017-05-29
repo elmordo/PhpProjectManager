@@ -9,6 +9,8 @@ use PPM\Vcs\IIgnoreFile;
 class Git implements IVcs
 {
 
+    const CMD_PULL = "git pull";
+
     protected $basePath = ".";
 
     /**
@@ -37,8 +39,8 @@ class Git implements IVcs
      */
     public function isInitialized() : bool
     {
-        $repoDir = joinPath($basePath, ".git");
-        return is_dir($repoDir);
+        $repoDir = joinPath($this->basePath, ".git");
+        return is_dir($repoDir) || is_file($repoDir);
     }
 
     /**
@@ -83,7 +85,9 @@ class Git implements IVcs
      */
     public function pull() : IVcs
     {
-        throw new Exception("Not implemented", 500);
+        $cmd = "cd '" . $this->basePath . "' && " . self::CMD_PULL;
+        passthru($cmd);
+        return $this;
     }
 
     /**

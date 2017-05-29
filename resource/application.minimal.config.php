@@ -95,5 +95,23 @@ return [
             ], // end definition
         ], // end module discover
 
+        // route pull
+        [
+            "name" => "pull",
+            "description" => "Pull data from server in main repo and all modules",
+            "defaults" => [
+                "controller" => "Vcs",
+                "action" => "pullAll"
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "pull"
+                    ],
+                ], // end argument pull
+            ], // end definition
+        ], // end module discover
+
     ],
 ];
