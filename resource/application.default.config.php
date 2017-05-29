@@ -6,4 +6,5 @@ return [
     ],
 	"module_explorer" => "\PPM\Project\Module\ModuleExplorer",
 	"config_dir" => "config",
+    "asset_dir" => "public",
 ];

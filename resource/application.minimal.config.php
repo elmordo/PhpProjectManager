@@ -76,5 +76,23 @@ return [
             ], // end definition
         ], // end module discover
 
+        // route mkassets
+        [
+            "name" => "mkassets",
+            "description" => "Make symlinks of module assets to assets dir",
+            "defaults" => [
+                "controller" => "Asset",
+                "action" => "build"
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "mkassets"
+                    ],
+                ], // end argument mkassets
+            ], // end definition
+        ], // end module discover
+
     ],
 ];

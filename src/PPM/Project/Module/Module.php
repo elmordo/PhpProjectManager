@@ -21,6 +21,16 @@ class Module
     	$this->path = $path;
     }
 
+    public function getConfig() : ConfigData
+    {
+        return $this->config;
+    }
+
+    public function getPath() : string
+    {
+        return $this->path;
+    }
+
     public function getName() : string
     {
     	return $this->name;
