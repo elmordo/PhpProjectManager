@@ -58,7 +58,6 @@ class ModuleController extends AController
         {
             if ($this->askForModuleAction("Do you want to add module \"{{name}}\"?", $moduleName))
                 $result[] = $moduleName;
-            break;
         }
 
         return $result;
