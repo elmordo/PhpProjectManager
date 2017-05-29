@@ -61,10 +61,10 @@ class VcsController extends AController
         foreach ($moduleNames as $moduleName)
         {
             $module = $moduleManager->getModule($moduleName);
-            $this->commit($module->getPath(), $vcsType);
+            $this->push($module->getPath(), $vcsType);
         }
         $mainPath = $application->getBasePath();
-        $this->commit($mainPath, $vcsType);
+        $this->push($mainPath, $vcsType);
     }
 
     /**
@@ -96,8 +96,27 @@ class VcsController extends AController
         if ($vcs->isInitialized())
         {
             echo "Commiting '$path'" . PHP_EOL;
-            $vcs->add("*");
+
+            $io = $this->getServiceManager()->getService("io");
+            $message = $io->prompt("Commit message:");
+            $vcs->add("-A");
             $vcs->commit();
+        }
+        else
+        {
+            echo "Module in '$path' is not repository" . PHP_EOL;
+        }
+    }
+
+    public function push(string $path, string $vcsType)
+    {
+        $factory = new \PPM\Vcs\Factory();
+        $vcs = $factory->createVcs($vcsType, $path);
+
+        if ($vcs->isInitialized())
+        {
+            echo "Pushing '$path'" . PHP_EOL;
+            $vcs->push();
         }
     }
 
