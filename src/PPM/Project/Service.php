@@ -13,7 +13,7 @@ class Service extends \PPM\Project implements IService
 
 	public function getDependencies() : array
 	{
-		return [ "config" ];
+		return [ "config", "vcs", "application" ];
 	}
 
 	public function initialize()

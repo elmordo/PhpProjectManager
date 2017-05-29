@@ -41,7 +41,6 @@ class ConfigData
 		{
 			$value = $default;
 		}
-
 		else
 		{
 			if (is_array($this->data[$name]))
