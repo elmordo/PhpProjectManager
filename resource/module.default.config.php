@@ -1,5 +1,7 @@
 <?php
 
 return [
-    "assets_dir" => "assets"
+    "assets_dir" => "assets",
+    "dependencies" => [],
+    "dependencies_composer" => []
 ];

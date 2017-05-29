@@ -32,6 +32,10 @@ class ModuleController extends AController
         // add modules to project and save config
         $this->addModules($modulesToAdd, $project->getModuleManager());
         $this->saveModulesConfig($project->getModuleManager()->getModuleNames());
+
+        $view = $this->getServiceManager()->getService("view");
+        $view->newModules = $modulesToAdd;
+        $view->somethingFound = count($newModules) > 0;
     }
 
     protected function saveModulesConfig(array $moduleNames)
