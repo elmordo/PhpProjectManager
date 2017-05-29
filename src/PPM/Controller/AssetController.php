@@ -22,14 +22,16 @@ class AssetController extends AController
             $module = $moduleManager->getModule($moduleName);
             $this->buildAssetsForModule($module, $targetAssetsPath);
         }
-
-        die(var_dump($moduleNames));
     }
 
     private function buildAssetsForModule(Module $module, string $targetPath)
     {
+        $vcs = $this->getServiceManager()->getService("vcs")->getVcs();
+
         $assetBuilder = new \PPM\Asset\Builder();
         $assetBuilder->setTargetPath($targetPath);
+        $assetBuilder->setVcs($vcs);
+
         $assetBuilder->build($module);
     }
 

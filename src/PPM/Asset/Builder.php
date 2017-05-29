@@ -3,12 +3,15 @@
 namespace PPM\Asset;
 
 use PPM\Project\Module\Module;
+use PPM\Vcs\IVcs;
 
 
 class Builder
 {
 
     protected $targetPath;
+
+    protected $vcs;
 
     public function build(Module $module) : Builder
     {
@@ -46,6 +49,26 @@ class Builder
     public function setTargetPath(string $value) : Builder
     {
         $this->targetPath = $value;
+        return $this;
+    }
+
+    /**
+     * get 'vcs' value
+     * @return IVcs
+     */
+    public function getVcs() : IVcs
+    {
+        return $this->vcs;
+    }
+
+    /**
+     * set new 'vcs' value
+     * @param IVcs $value new value of 'vcs'
+     * @return Builder
+     */
+    public function setVcs(IVcs $value) : Builder
+    {
+        $this->vcs = $value;
         return $this;
     }
 
@@ -105,12 +128,26 @@ class Builder
      * @param string $targetPath [description]
      * @return [type] [description]
      */
-    public function buildFile(string $sourcePath, string $targetPath)
+    private function buildFile(string $sourcePath, string $targetPath)
     {
         if (is_file($targetPath))
             unlink($targetPath);
 
         symlink($sourcePath, $targetPath);
+        $this->addToIgnore($targetPath);
+    }
+
+    /**
+     * add entry to VCS ignore file
+     * @param string $entry [description]
+     */
+    private function addToIgnore(string $entry)
+    {
+        $fileName = basename($entry);
+        $directoryName = dirname($entry);
+
+        $ignoreFile = $this->vcs->getIgnoreFileInDirectory($directoryName);
+        $ignoreFile->addEntry($fileName)->save();
     }
 
 }
