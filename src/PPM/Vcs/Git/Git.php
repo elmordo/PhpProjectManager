@@ -15,6 +15,8 @@ class Git implements IVcs
 
     const CMD_COMMIT = "git commit";
 
+    const CMD_PUSH = "git push";
+
     protected $basePath = ".";
 
     /**
@@ -99,7 +101,9 @@ class Git implements IVcs
      */
     public function push() : IVcs
     {
-        throw new Exception("Not implemented", 500);
+        $cmd = "cd '" . $this->basePath . "' && " . self::CMD_PUSH;
+        passthru($cmd);
+        return $this;
     }
 
     /**
