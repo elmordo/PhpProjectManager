@@ -131,6 +131,7 @@ class ApplicationController extends AController
             unlink($targetFile);
 
         copy($sourceFile, $targetFile);
+        chmod($targetFile, 0744);
     }
 
     /**
