@@ -16,6 +16,8 @@ class ApplicationController extends AController
 
     public function updateAction()
     {
+        new \PPM\View\Exception(); // hack to fix missing exception
+
         $application = $this->getServiceManager()->getService("application");
         $io = $this->getServiceManager()->getService("io");
 
@@ -132,6 +134,7 @@ class ApplicationController extends AController
 
         copy($sourceFile, $targetFile);
         chmod($targetFile, 0744);
+
     }
 
     /**
