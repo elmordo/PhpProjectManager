@@ -35,6 +35,7 @@ class ApplicationController extends AController
         catch (\Exception $e)
         {
             $io->write("Update was aborted.");
+            $this->cleanup($repoPath);
             return;
         }
 
@@ -112,7 +113,7 @@ class ApplicationController extends AController
             throw new \RuntimeException("Unable to determine version number of downloaded repository");
         }
 
-        return $version;
+        return trim($version);
     }
 
     private function build(string $repoPath)
