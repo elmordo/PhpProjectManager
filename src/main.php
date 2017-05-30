@@ -27,6 +27,7 @@ $globalConfigPath = joinPath($currentPath, \PPM\Controller\ProjectController::AP
 // setup application config
 $configs = [
     joinPath(__DIR__, "../resource/application.minimal.config.php"),
+    joinPath(__DIR__, "../resource/application.default.config.php"),
     $globalConfigPath,
     joinPath($currentPath, \PPM\Controller\ProjectController::APP_LOCAL_CONFIG),
 ];
