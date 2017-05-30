@@ -1,4 +1,10 @@
 
+0.3
+===
+
+* Fixed PPM\View\Exception not found error in selfupdate 
+* System routes moved to internal config file (it is not exported into global config)
+
 0.2.2
 =====
 
