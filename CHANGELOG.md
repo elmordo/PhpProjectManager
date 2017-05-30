@@ -1,4 +1,11 @@
 
+0.2.2
+=====
+
+* Route names fix
+* Selfupdate mechanism calls chmod u+x on updated ppm.phar file
+* CHANGELOG renamed to CHANGELOG.md
+
 0.2.1
 ===
 
