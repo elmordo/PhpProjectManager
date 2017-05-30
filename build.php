@@ -49,10 +49,15 @@ $entryPoint = joinPath("src", "main.php");
 
 // build application to phar
 $pharApp = new Phar($targetFile, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME);
+$pharApp->startBuffering();
 $pharApp->buildFromDirectory(__DIR__, "/\.php$/");
 $pharApp->addFile(__DIR__ . "/VERSION", "VERSION");
 
 $stub = $pharApp->createDefaultStub($entryPoint);
 
-$pharApp->setStub($stub);
+$pharApp->setStub("#!/usr/bin/env php\n" . $stub);
+$pharApp->stopBuffering();
+
 $pharApp->compressFiles(Phar::GZ);
+
+chmod($targetFile, 0744);
