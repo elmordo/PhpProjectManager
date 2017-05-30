@@ -1,0 +1,14 @@
+
+0.2.1
+===
+
+* Build system fix
+* Fix of version loading in selfupdate feature
+* README
+* CHANGELOG
+* Project initialization fix
+
+0.2
+===
+
+* First public release
