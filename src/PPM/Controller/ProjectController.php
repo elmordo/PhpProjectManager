@@ -13,6 +13,10 @@ class ProjectController extends AController
 
     const APP_LOCAL_CONFIG = ".ppm.local.json";
 
+    const APP_DEFAULT_CONFIG = "application.default.config.php";
+
+    const APP_MINIMAL_CONFIG = "application.minimal.config.php";
+
     public function initAction()
     {
         // prepare new config instance
@@ -28,7 +32,7 @@ class ProjectController extends AController
         $adapter = new Json();
 
         // save global config
-        $globalAppConfig = $this->getGlobalAppConfig($config);
+        $globalAppConfig = $this->getGlobalAppConfig();
         $adapter->setFileName($globalConfigFileName);
         $adapter->save($globalAppConfig);
 
@@ -47,20 +51,27 @@ class ProjectController extends AController
         if ($initialData)
             $result->mergeWith($initialData);
 
+        $defaultConfig = $this->loadConfigFromResources(self::APP_DEFAULT_CONFIG);
+        $minimalConfig = $this->loadConfigFromResources(self::APP_MINIMAL_CONFIG);
 
-        $fileName = $this->getAppConfigFileName();
-        $factory = new ConfigAdapterFactory();
-        $adapter = $factory->createAdapter($fileName);
-        $defaultConfig = $adapter->load();
-
-        $result->mergeWith($defaultConfig);
+        $result->mergeWith($minimalConfig)->mergeWith($defaultConfig);
 
         return $result;
     }
 
-    protected function getAppConfigFileName() : string
+    protected function loadConfigFromResources(string $configName) : ConfigData
     {
-        return joinPath(__DIR__, "../../../resource/application.default.config.php");
+        $fileName = $this->getAppConfigFileName($configName);
+        $factory = new ConfigAdapterFactory();
+        $adapter = $factory->createAdapter($fileName);
+        $configData = $adapter->load();
+
+        return $configData;
+    }
+
+    protected function getAppConfigFileName($configName) : string
+    {
+        return joinPath(__DIR__, "../../../resource", $configName);
     }
 
 }
