@@ -93,7 +93,7 @@ return [
                     ],
                 ], // end argument mkassets
             ], // end definition
-        ], // end module discover
+        ], // end mkassets
 
         // route pull
         [
@@ -111,7 +111,7 @@ return [
                     ],
                 ], // end argument pull
             ], // end definition
-        ], // end module discover
+        ], // end pull
 
         // route commit
         [
@@ -129,9 +129,9 @@ return [
                     ],
                 ], // end argument pull
             ], // end definition
-        ], // end module discover
+        ], // end commit
 
-        // route commit
+        // route push
         [
             "name" => "push",
             "description" => "Pull data from server in main repo and all modules",
@@ -147,7 +147,25 @@ return [
                     ],
                 ], // end argument pull
             ], // end definition
-        ], // end module discover
+        ], // end push
+
+        // route selfupdate
+        [
+            "name" => "selfupdate",
+            "description" => "Update PhpProjectManager",
+            "defaults" => [
+                "controller" => "Application",
+                "action" => "update"
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "selfupdate"
+                    ],
+                ], // end argument selfupdate
+            ], // end definition
+        ], // end selfupdate
 
     ],
 ];
