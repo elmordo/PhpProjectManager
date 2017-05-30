@@ -56,7 +56,7 @@ return [
         // route module discover
         [
             "name" => "module discover",
-            "description" => "Initialize project in working directory",
+            "description" => "Search for new modules (not registered in config)",
             "defaults" => [
                 "controller" => "Module",
                 "action" => "discover"
@@ -116,7 +116,7 @@ return [
         // route commit
         [
             "name" => "commit",
-            "description" => "Pull data from server in main repo and all modules",
+            "description" => "Add and commit all changes in main repo and all modules",
             "defaults" => [
                 "controller" => "Vcs",
                 "action" => "commitAll"
@@ -134,7 +134,7 @@ return [
         // route push
         [
             "name" => "push",
-            "description" => "Pull data from server in main repo and all modules",
+            "description" => "Push data to server in main repo and all modules",
             "defaults" => [
                 "controller" => "Vcs",
                 "action" => "pushAll"
