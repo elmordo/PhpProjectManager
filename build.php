@@ -50,6 +50,7 @@ $entryPoint = joinPath("src", "main.php");
 // build application to phar
 $pharApp = new Phar($targetFile, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME);
 $pharApp->buildFromDirectory(__DIR__, "/\.php$/");
+$pharApp->addFile(__DIR__ . "/VERSION", "VERSION");
 
 $stub = $pharApp->createDefaultStub($entryPoint);
 
