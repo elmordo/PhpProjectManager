@@ -17,7 +17,7 @@ class ModuleController extends AController
 
         // setup explorer
         $allModules = $this->loadAllModules();
-        $newModules = $this->filterExisting($allModules, $moduleManager);
+        $newModules = $this->filterExistingAndIgnored($allModules, $moduleManager);
 
         try
         {
@@ -139,13 +139,15 @@ class ModuleController extends AController
         return $io->askYesNoAbort($question);
     }
 
-    protected function filterExisting(array $allModules, ModuleManager $moduleManager) : array
+    protected function filterExistingAndIgnored(array $allModules, ModuleManager $moduleManager) : array
     {
         $result = [];
+        $config = $this->getServiceManager()->getService("config")->toArray();
+        $ignoredModules = $config["ignored_modules"] ?? [];
 
         foreach ($allModules as $moduleName)
         {
-            if (!$moduleManager->hasModule($moduleName))
+            if (!$moduleManager->hasModule($moduleName) && !in_array($moduleName, $ignoredModules))
             {
                 $result[] = $moduleName;
             }
