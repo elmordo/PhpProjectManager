@@ -38,6 +38,70 @@ class ModuleController extends AController
         $view->somethingFound = count($newModules) > 0;
     }
 
+    public function ignoreAction()
+    {
+        $params = $this->getServiceManager()->getService("router")->getParams();
+        $io = $this->getServiceManager()->getService("io");
+
+        // get global config and add module to it
+        $configAdapter = $this->getServiceManager()->getService("globalConfigAdapter");
+        $config = $configAdapter->getAdapter()->load();
+        $ignoredModules = $this->getIgnoredModules($config);
+
+        $moduleName = $params["moduleName"];
+
+        if (!in_array($moduleName, $ignoredModules))
+        {
+            $ignoredModules[] = $moduleName;
+            $config->ignored_modules = $ignoredModules;
+            $configAdapter->getAdapter()->save($config);
+            $io->write("Module '$moduleName' was added to the ignoration modules.");
+        }
+        else
+        {
+            $io->write("Module '$moduleName' is already ignored.");
+        }
+    }
+
+    public function unignoreAction()
+    {
+        $params = $this->getServiceManager()->getService("router")->getParams();
+        $io = $this->getServiceManager()->getService("io");
+
+        // get global config and add module to it
+        $configAdapter = $this->getServiceManager()->getService("globalConfigAdapter");
+        $config = $configAdapter->getAdapter()->load();
+        $ignoredModules = $this->getIgnoredModules($config);
+
+        $moduleName = $params["moduleName"];
+
+        if (in_array($moduleName, $ignoredModules))
+        {
+            if (($key = array_search($moduleName, $ignoredModules)) !== false)
+                unset($ignoredModules[$key]);
+
+            $config->ignored_modules = $ignoredModules;
+            $configAdapter->getAdapter()->save($config);
+            $io->write("Module '$moduleName' was removed from the ignored modules.");
+        }
+        else
+        {
+            $io->write("Module '$moduleName' is not in ignoration list.");
+        }
+    }
+
+    protected function getIgnoredModules(\PPM\Config\ConfigData $config) : array
+    {
+        $ignoredModules = $config->ignored_modules;
+
+        if ($ignoredModules === null)
+            $ignoredModules = [];
+        else if ($ignoredModules instanceof \PPM\Config\ConfigData)
+            $ignoredModules = $ignoredModules->toArray();
+
+        return $ignoredModules;
+    }
+
     protected function saveModulesConfig(array $moduleNames)
     {
         $configAdapter = $this->getServiceManager()->getService("globalConfigAdapter");

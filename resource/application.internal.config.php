@@ -73,6 +73,68 @@ return [
             ], // end definition
         ], // end module discover
 
+        // route module ignore
+        [
+            "name" => "module ignore [modulename]",
+            "description" => "Add module to the ignore list (ignored by module discover)",
+            "defaults" => [
+                "controller" => "Module",
+                "action" => "ignore"
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "module"
+                    ],
+                ], // end argument module
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "ignore"
+                    ],
+                ], // end argument ignore
+                [
+                    "type" => "positional",
+                    "options" => [
+                        "name" => "moduleName",
+                        "mapping" => "moduleName",
+                    ],
+                ], // end argument moduleName
+            ], // end definition
+        ], // end module ignore
+
+        // route module unignore
+        [
+            "name" => "module unignore [modulename]",
+            "description" => "Remove module from the ignore list",
+            "defaults" => [
+                "controller" => "Module",
+                "action" => "unignore"
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "module"
+                    ],
+                ], // end argument module
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "unignore"
+                    ],
+                ], // end argument unignore
+                [
+                    "type" => "positional",
+                    "options" => [
+                        "name" => "moduleName",
+                        "mapping" => "moduleName",
+                    ],
+                ], // end argument moduleName
+            ], // end definition
+        ], // end module unignore
+
         // route mkassets
         [
             "name" => "mkassets",

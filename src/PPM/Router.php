@@ -15,6 +15,11 @@ class Router
 	protected $routes = [];
 
     /**
+     * @var array parsed parameters of the last matched route
+     */
+    protected $lastParams = [];
+
+    /**
      * create new route and add it into internal route list
      * @return IRoute new route instance
      */
@@ -67,8 +72,18 @@ class Router
 		if (is_null($result))
 			throw new Router\Exception("No matching route found", 500);
 
+        $this->lastParams = $result->getParams();
 
 		return $result;
 	}
+
+    /**
+     * return parsed parameters of the last matched routes.
+     * @return array parameters from last matched route
+     */
+    public function getParams() : array
+    {
+        return $this->lastParams;
+    }
 
 }
