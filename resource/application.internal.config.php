@@ -49,6 +49,50 @@ return [
             ], // end definition
         ], // end help empty
 
+        // route save
+        [
+            "name" => "save",
+            "description" => "Add all, commit and push all modules",
+            "defaults" => [
+                "controller" => "Multiroute",
+                "action" => "dispatch",
+                "actions" => [
+                    [ "commit" ],
+                    [ "push" ],
+                ],
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "save"
+                    ],
+                ], // end argument save
+            ], // end definition
+        ], // end save
+
+        // route update
+        [
+            "name" => "update",
+            "description" => "Pull all data from the server and run mkassets",
+            "defaults" => [
+                "controller" => "Multiroute",
+                "action" => "dispatch",
+                "actions" => [
+                    [ "pull" ],
+                    [ "mkassets" ],
+                ],
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "update"
+                    ],
+                ], // end argument save
+            ], // end definition
+        ], // end update
+
         // route module discover
         [
             "name" => "module discover",

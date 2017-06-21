@@ -93,10 +93,19 @@ class Dispatcher
 
     private function runDispatchLoop()
     {
-        while (count($this->stack) > 0)
+        $this->dispatchLoopRunning = true;
+
+        try
         {
-            $currentArgs = array_shift($this->stack);
-            $this->dispatchRequest($currentArgs);
+            while (count($this->stack) > 0)
+            {
+                $currentArgs = array_shift($this->stack);
+                $this->dispatchRequest($currentArgs);
+            }
+        }
+        finally
+        {
+            $this->dispatchLoopRunning = false;
         }
     }
 
