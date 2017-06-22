@@ -2,8 +2,10 @@
 0.3
 ===
 
-* Fixed PPM\View\Exception not found error in selfupdate 
+* Fixed PPM\View\Exception not found error in selfupdate
 * System routes moved to internal config file (it is not exported into global config)
+* composite routes
+* module ignore list
 
 0.2.2
 =====
