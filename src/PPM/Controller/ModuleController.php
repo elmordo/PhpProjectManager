@@ -63,6 +63,14 @@ class ModuleController extends AController
         }
     }
 
+    public function ignoredsAction()
+    {
+        $config = $this->getServiceManager()->getService("config")->toArray();
+        $ignoredModules = $config["ignored_modules"] ?? [];
+
+        $this->getServiceManager()->getService("view")->ignoredModules = $ignoredModules;
+    }
+
     public function unignoreAction()
     {
         $params = $this->getServiceManager()->getService("router")->getParams();

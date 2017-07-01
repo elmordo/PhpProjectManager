@@ -148,6 +148,30 @@ return [
             ], // end definition
         ], // end module ignore
 
+        // route module ignored
+        [
+            "name" => "module ignoreds",
+            "description" => "Display list of ignored modules",
+            "defaults" => [
+                "controller" => "Module",
+                "action" => "ignoreds"
+            ],
+            "definition" => [
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "module"
+                    ],
+                ], // end argument module
+                [
+                    "type" => "static",
+                    "options" => [
+                        "name" => "ignoreds"
+                    ],
+                ], // end argument ignoreds
+            ], // end definition
+        ], // end module ignore
+
         // route module unignore
         [
             "name" => "module unignore [modulename]",

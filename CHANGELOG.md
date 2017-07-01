@@ -1,3 +1,8 @@
+0.4
+===
+
+* List of ignored modules
+* Fix of situation when global config of module is missing
 
 0.3
 ===
