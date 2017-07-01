@@ -24,9 +24,10 @@ interface IModuleExplorer
     /**
      * load initialized module
      * @param string $moduleName module name
+     * @param array $defaultConfig config used as default when global config was not found
      * @return Module module
      */
-    public function loadModule(string $moduleName) : Module;
+    public function loadModule(string $moduleName, ConfigData $defaultConfig) : Module;
 
     /**
      * initialize module and return instance

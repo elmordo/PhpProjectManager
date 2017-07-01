@@ -18,18 +18,21 @@ class Service extends \PPM\Project implements IService
 
 	public function initialize()
 	{
-		$config = $this->getServiceManager()->getService("config");
-		$explorerClass = $config->getStrict("module_explorer");
-		$explorer = new $explorerClass;
-		$explorer->addDirectory($config->getStrict("module_dir"));
-
+		$this->loadDefaultModuleConfig();
+		$explorer = $this->initializeModuleExplorer();
 		$this->moduleManager->setModuleExplorer($explorer);
 		$this->loadConfiguredModules();
 	}
 
-	public function searchForModules($value='')
+	private function loadDefaultModuleConfig()
 	{
-		# code...
+		// setup default global module config
+		$config = $this->getServiceManager()->getService("config");
+		$configPath = $config->getStrict("resources")->getStrict("defaultConfigs")->getStrict("module");
+
+		$adapterFactory = new \PPM\Config\Adapter\Factory();
+		$adapter = $adapterFactory->createAdapter($configPath);
+		$this->moduleManager->setDefaultGlobalConfig($adapter->load());
 	}
 
 	private function loadConfiguredModules()
@@ -42,6 +45,16 @@ class Service extends \PPM\Project implements IService
 		{
 			$this->moduleManager->addModuleByName($name);
 		}
+	}
+
+	private function initializeModuleExplorer() : Module\IModuleExplorer
+	{
+		$config = $this->getServiceManager()->getService("config");
+		$explorerClass = $config->getStrict("module_explorer");
+		$explorer = new $explorerClass;
+		$explorer->addDirectory($config->getStrict("module_dir"));
+
+		return $explorer;
 	}
 
 }

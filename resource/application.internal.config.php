@@ -269,4 +269,9 @@ return [
             ], // end definition
         ], // end selfupdate
     ],
+    "resources" => [
+        "defaultConfigs" => [
+            "module" => __DIR__ . "/module.default.config.php"
+        ]
+    ],
 ];

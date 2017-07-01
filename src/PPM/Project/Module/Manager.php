@@ -72,7 +72,7 @@ class Manager
 
     public function addModuleByName(string $moduleName) : Module
     {
-        $module = $this->moduleExplorer->loadModule($moduleName);
+        $module = $this->moduleExplorer->loadModule($moduleName, $this->defaultGlobalConfig);
         $this->modules[$moduleName] = $module;
         return $module;
     }

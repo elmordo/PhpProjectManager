@@ -48,7 +48,7 @@ class ModuleExplorer implements IModuleExplorer
      * @param string $moduleName module name
      * @return Module module
      */
-    public function loadModule(string $moduleName) : Module
+    public function loadModule(string $moduleName, ConfigData $defaultConfig) : Module
     {
         $module = null;
 
@@ -58,7 +58,7 @@ class ModuleExplorer implements IModuleExplorer
 
             if (is_dir($path))
             {
-                $module = $this->constructModule($path);
+                $module = $this->constructModule($path, $defaultConfig);
                 break;
             }
         }
@@ -95,7 +95,7 @@ class ModuleExplorer implements IModuleExplorer
         $this->writeConfig($modulePath, self::GLOBAL_CONFIG_NAME, $globalConfig);
         $this->writeConfig($modulePath, self::LOCAL_CONFIG_NAME, $localConfig);
 
-        return $this->constructModule($modulePath);
+        return $this->constructModule($modulePath, []);
     }
 
     private function writeConfig(string $directory, string $fileName, ConfigData $config)
@@ -151,16 +151,25 @@ class ModuleExplorer implements IModuleExplorer
     /**
      * construct one module
      * @param string $directory path to module directory
+     * @param ConfigData $defaultConfig default config used for module initialization.
      * @return Module instance of module
      */
-    private function constructModule(string $directory) : Module
+    private function constructModule(string $directory, ConfigData $defaultConfig) : Module
     {
         // get name
         $name = basename($directory);
 
         // load config (if config is not found, directory is not registered
         // module and can not be constructed)
-        $config = $this->loadModuleConfig($directory);
+        try
+        {
+            $config = $this->loadModuleConfig($directory, false, $defaultConfig);
+        }
+        catch (Exception $e)
+        {
+            $config = $defaultConfig;
+        }
+
         $module = new Module($name, $directory, $config);
 
         return $module;
@@ -172,14 +181,18 @@ class ModuleExplorer implements IModuleExplorer
         $localPath = joinPath($directory, self::LOCAL_CONFIG_NAME);
 
         // global config must exists
-        if (!is_file($globalPath))
+        if (is_file($globalPath))
+        {
+            $factory = new AdapterFactory();
+            $adapter = $factory->createAdapter($globalPath);
+
+            $config = $adapter->load();
+        }
+        else
+        {
             throw new Exception("Can not load global config file "
                 . "'$globalPath'.", 500);
-
-        $factory = new AdapterFactory();
-        $adapter = $factory->createAdapter($globalPath);
-
-        $config = $adapter->load();
+        }
 
         // load local config
         try
