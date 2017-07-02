@@ -4,6 +4,7 @@
 * List of changes before commit
 * List of ignored modules
 * Fix of situation when global config of module is missing
+* Modules with no changes are skipped in commit
 
 0.3
 ===

@@ -100,12 +100,19 @@ class VcsController extends AController
 
         if ($vcs->isInitialized())
         {
+            $vcs->add("-A");
             $io->write("Commiting '$path'");
             $changes = $this->getChanges($vcs);
+
+            if (empty($changes))
+            {
+                $io->write("No changes found. Skipping...");
+                return;
+            }
+
             $this->printChanges($changes, $io);
 
             $message = $io->prompt("Commit message:");
-            $vcs->add("-A");
             $vcs->commit($message);
         }
         else
