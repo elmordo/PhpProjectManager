@@ -21,7 +21,7 @@ class Process
             [ "pipe", "r" ],
         ];
 
-        $this->resource = proc_open($command, $descriptor, $this->pipes);
+        $this->resource = proc_open("cd $cwd && " . $command, $descriptor, $this->pipes);
     }
 
     public function read()

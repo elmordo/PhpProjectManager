@@ -4,6 +4,7 @@ namespace PPM\Vcs\Git;
 
 use PPM\Vcs\IVcs;
 use PPM\Vcs\IIgnoreFile;
+use PPM\Vcs\ChangeItem;
 
 
 class Git implements IVcs
@@ -17,7 +18,7 @@ class Git implements IVcs
 
     const CMD_PUSH = "git push";
 
-    const CMD_STATUS = "git status --porcelain"
+    const CMD_STATUS = "git status --porcelain";
 
     protected $basePath = ".";
 
@@ -66,7 +67,8 @@ class Git implements IVcs
      */
     public function getChanges() : array
     {
-        throw new Exception("Not implemented", 500);
+        $changeRows = $this->getStatusItems();
+        return $this->parseChanges($changeRows);
     }
 
     /**
@@ -128,6 +130,70 @@ class Git implements IVcs
     {
         $ignorePath = joinPath($path, ".gitignore");
         return new IgnoreFile($ignorePath);
+    }
+
+    private function getStatusItems() : array
+    {
+        $process = new \PPM\Process(self::CMD_STATUS, $this->basePath);
+        $output = $process->read();
+        $process->close();
+
+        $splittedData = explode(PHP_EOL, $output);
+        $result = [];
+
+        foreach ($splittedData as $item)
+        {
+            $item = trim($item);
+
+            if (!empty($item)) $result[] = $item;
+        }
+
+        return $result;
+    }
+
+    private function parseChanges(array $items) : array
+    {
+        $result = [];
+
+        foreach ($items as $item)
+        {
+            $result[] = $this->parseChange($item);
+        }
+
+        return $result;
+    }
+
+    private function parseChange(string $item)
+    {
+        list($strType, $file) = explode(" ", $item, 2);
+
+        switch ($strType)
+        {
+            case "A":
+                $intType = ChangeItem::CHANGE_NEW;
+                break;
+
+            case "M":
+                $intType = ChangeItem::CHANGE_MODIFIED;
+                break;
+
+            case "D":
+                $intType = ChangeItem::CHANGE_DELETED;
+                break;
+
+            case "R":
+                $intType = ChangeItem::CHANGE_RENAMED;
+                break;
+
+            case "??":
+                $intType = ChangeItem::CHANGE_UNTRACKED;
+                break;
+
+            default:
+                $intType = ChangeItem::CHANGE_UNKNOWN;
+        }
+
+        return new ChangeItem(trim($file), $intType);
     }
 
 }

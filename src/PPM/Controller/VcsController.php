@@ -3,6 +3,8 @@
 namespace PPM\Controller;
 
 use PPM\Vcs\IVcs;
+use PPM\Vcs\ChangeItem;
+use PPM\IO;
 
 
 class VcsController extends AController
@@ -94,13 +96,14 @@ class VcsController extends AController
     {
         $factory = new \PPM\Vcs\Factory();
         $vcs = $factory->createVcs($vcsType, $path);
+        $io = $this->getServiceManager()->getService("io");
 
         if ($vcs->isInitialized())
         {
-            echo "Commiting '$path'" . PHP_EOL;
-            $this->printChanges($vcs);
+            $io->write("Commiting '$path'");
+            $changes = $this->getChanges($vcs);
+            $this->printChanges($changes, $io);
 
-            $io = $this->getServiceManager()->getService("io");
             $message = $io->prompt("Commit message:");
             $vcs->add("-A");
             $vcs->commit($message);
@@ -123,13 +126,22 @@ class VcsController extends AController
         }
     }
 
-    private function printChanges(IVcs $vcs)
+    private function printChanges(array $changes, IO $io)
     {
-        $changes = $this->getChagnes($vcs);
-        die(var_dump($changes));
+        $io->write("Changes:");
+        $io->write("");
+
+        foreach ($changes as $change)
+        {
+            $type = $change->getChangeTypeAsStr();
+            $io->write($type . ": " . $change->getFilename());
+        }
+
+        $io->write("");
+
     }
 
-    private function getChagnes(IVcs $vcs)
+    private function getChanges(IVcs $vcs)
     {
         return $vcs->getChanges($vcs);
     }

@@ -9,7 +9,16 @@ class ChangeItem
     const CHANGE_NEW = 1;
     const CHANGE_MODIFIED = 2;
     const CHANGE_DELETED = 3;
+    const CHANGE_RENAMED = 4;
+    const CHANGE_UNTRACKED = 5;
     const CHANGE_UNKNOWN = 99;
+
+    const STR_NEW = "NEW";
+    const STR_MODIFIED = "MODIFIED";
+    const STR_DELETED = "DELETED";
+    const STR_RENAMED = "RENAMED";
+    const STR_UNTRACKED = "UNTRACKED";
+    const STR_UNKNOWN = "UNKNOWN";
 
     private $filename;
 
@@ -39,6 +48,35 @@ class ChangeItem
     public function getChangeType() : int
     {
         return $this->changeType;
+    }
+
+    public function getChangeTypeAsStr() : string
+    {
+        switch ($this->changeType)
+        {
+            case self::CHANGE_NEW:
+                return self::STR_NEW;
+                break;
+
+            case self::CHANGE_MODIFIED:
+                return self::STR_MODIFIED;
+                break;
+
+            case self::CHANGE_DELETED:
+                return self::STR_DELETED;
+                break;
+
+            case self::CHANGE_RENAMED:
+                return self::STR_RENAMED;
+                break;
+
+            case self::CHANGE_UNTRACKED:
+                return self::STR_UNTRACKED;
+                break;
+
+            default:
+                return self::STR_UNKNOWN;
+        }
     }
 
 }
