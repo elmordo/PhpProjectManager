@@ -2,6 +2,8 @@
 
 namespace PPM\Controller;
 
+use PPM\Vcs\IVcs;
+
 
 class VcsController extends AController
 {
@@ -96,11 +98,12 @@ class VcsController extends AController
         if ($vcs->isInitialized())
         {
             echo "Commiting '$path'" . PHP_EOL;
+            $this->printChanges($vcs);
 
             $io = $this->getServiceManager()->getService("io");
             $message = $io->prompt("Commit message:");
             $vcs->add("-A");
-            $vcs->commit();
+            $vcs->commit($message);
         }
         else
         {
@@ -118,6 +121,17 @@ class VcsController extends AController
             echo "Pushing '$path'" . PHP_EOL;
             $vcs->push();
         }
+    }
+
+    private function printChanges(IVcs $vcs)
+    {
+        $changes = $this->getChagnes($vcs);
+        die(var_dump($changes));
+    }
+
+    private function getChagnes(IVcs $vcs)
+    {
+        return $vcs->getChanges($vcs);
     }
 
 }

@@ -17,6 +17,8 @@ class Git implements IVcs
 
     const CMD_PUSH = "git push";
 
+    const CMD_STATUS = "git status --porcelain"
+
     protected $basePath = ".";
 
     /**
@@ -62,7 +64,7 @@ class Git implements IVcs
      * get list of changed files
      * @return array list of changed files
      */
-    public function getChangeds() : array
+    public function getChanges() : array
     {
         throw new Exception("Not implemented", 500);
     }

@@ -33,9 +33,10 @@ interface IVcs
 
     /**
      * get list of changed files
+     * Items of array are ChangeItem instances
      * @return array list of changed files
      */
-    public function getChangeds() : array;
+    public function getChanges() : array;
 
     /**
      * add changes into next commit
