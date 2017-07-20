@@ -1,3 +1,8 @@
+0.4.1
+=====
+
+* Fix of module discover bug
+
 0.4
 ===
 

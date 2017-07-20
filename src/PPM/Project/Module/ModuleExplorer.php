@@ -95,7 +95,7 @@ class ModuleExplorer implements IModuleExplorer
         $this->writeConfig($modulePath, self::GLOBAL_CONFIG_NAME, $globalConfig);
         $this->writeConfig($modulePath, self::LOCAL_CONFIG_NAME, $localConfig);
 
-        return $this->constructModule($modulePath, []);
+        return $this->constructModule($modulePath, ConfigData::createEmptyInstance());
     }
 
     private function writeConfig(string $directory, string $fileName, ConfigData $config)

@@ -35,6 +35,12 @@ class ConfigData
         $this->setValue($name, $value);
     }
 
+    public static function createEmptyInstance()
+    {
+    	$config = [];
+    	return new self($config);
+    }
+
 	public function getValue(string $name, $default=null)
 	{
 		if (!isset($this->data[$name]))
